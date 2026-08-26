@@ -136,6 +136,74 @@ const worldRecipeStyles = [
 
 const worldRecipes = {};
 
+function recipeProfileForDish(dish, style, countryIndex, recipeIndex) {
+    const name = dish.toLowerCase();
+    const profiles = [
+        {
+            match: /soup|stew|curry|wat|chowder|broth|harira|sinigang|goulash/,
+            ingredients: "onion, garlic, root vegetables, stock and warming spices",
+            method: "simmered slowly until the broth is rich and the vegetables are tender",
+            calories: 0,
+            time: 5
+        },
+        {
+            match: /rice|biryani|pulao|pilau|risotto|paella|jollof|nasi|fried rice/,
+            ingredients: "fragrant rice, aromatics, seasonal vegetables and a savoury cooking broth",
+            method: "cooked gently so every grain absorbs the seasoned broth",
+            calories: 35,
+            time: 10
+        },
+        {
+            match: /fish|salmon|shrimp|prawn|seafood|tuna|cod|crab|mussel|oyster/,
+            ingredients: "fresh seafood, citrus, herbs, vegetables and a bright savoury sauce",
+            method: "cooked quickly so the seafood stays tender and the sauce remains bright",
+            calories: 45,
+            time: 0
+        },
+        {
+            match: /salad|tabbouleh|fattoush|pico|sambol|slaw/,
+            ingredients: "crisp seasonal vegetables, herbs, legumes and a sharp dressing",
+            method: "tossed just before serving to keep every vegetable crisp",
+            calories: -35,
+            time: -5
+        },
+        {
+            match: /cake|torte|pie|pudding|cookie|biscuit|baklava|pastry|sweet|jamun|jalebi|mousse|flan|crepe|waffle|churro|dessert/,
+            ingredients: "whole-food grains, fruit, toasted nuts and a lightly sweet finish",
+            method: "baked or griddled until fragrant with a tender centre and golden edges",
+            calories: 25,
+            time: 5
+        },
+        {
+            match: /dumpling|manti|momo|pierogi|ravioli|gyoza|pelmeni/,
+            ingredients: "thin wrappers, a seasoned vegetable filling, herbs and a tangy dip",
+            method: "sealed carefully, then steamed or pan-cooked until the wrappers are tender",
+            calories: 20,
+            time: 10
+        },
+        {
+            match: /bread|flatbread|pizza|pide|roti|naan|bun|roll|pancake|dosa|arepa|taco|wrap|sandwich/,
+            ingredients: "a warm grain-based wrapper, fresh vegetables, herbs and a savoury filling",
+            method: "cooked on a hot surface until the outside is lightly crisp and the centre stays soft",
+            calories: 15,
+            time: 0
+        }
+    ];
+
+    const profile = profiles.find(candidate => candidate.match.test(name)) || {
+        ingredients: style.ingredients,
+        method: "cooked in stages so each ingredient keeps its texture and character",
+        calories: 0,
+        time: 0
+    };
+
+    return {
+        ...profile,
+        calories: style.calories + profile.calories + ((countryIndex + recipeIndex) % 3) * 10,
+        time: Math.max(5, style.time + profile.time + ((countryIndex * 2 + recipeIndex) % 4) * 5)
+    };
+}
+
 function stepsForDish(dish, country, countryIndex, recipeIndex) {
     const name = dish.toLowerCase();
     const origin = `${country} style`;
@@ -253,12 +321,13 @@ worldCountries.forEach((country, countryIndex) => {
     const dishes = culturalFoods[country] || worldRecipeStyles.map(style => `${country} ${style.name}`);
     dishes.forEach((dish, recipeIndex) => {
         const style = worldRecipeStyles[recipeIndex];
+        const profile = recipeProfileForDish(dish, style, countryIndex, recipeIndex);
         const name = `${country} ${dish}`;
         worldRecipes[name] = {
             country,
-            cal: `🔥 ${style.calories + (countryIndex % 5) * 10} kcal`,
-            time: `⏱ ${style.time} min`,
-            ingredients: [dish, style.ingredients],
+            cal: `🔥 ${profile.calories} kcal`,
+            time: `⏱ ${profile.time} min`,
+            ingredients: [dish, profile.ingredients],
             steps: stepsForDish(dish, country, countryIndex, recipeIndex)
         };
     });
@@ -267,17 +336,18 @@ worldCountries.forEach((country, countryIndex) => {
 function countryRecipeDescription(country, dish, style, recipeIndex) {
     const countryName = country.toLowerCase();
     const dishName = dish.toLowerCase();
+    const profile = recipeProfileForDish(dish, style, worldCountries.indexOf(country), recipeIndex);
     const descriptions = [
-        `${dish} brings a ${countryName} welcome to the table, pairing its signature flavours with ${style.ingredients}.`,
-        `Built around ${dishName}, this ${countryName} favourite balances ${style.ingredients} in a generous, comforting serving.`,
-        `For a taste of ${country}, try ${dish}: a dish shaped by ${style.ingredients} and an inviting homemade finish.`,
-        `${dish} takes centre stage here, with ${style.ingredients} adding colour, texture, and depth to the ${countryName} plate.`,
-        `This ${countryName} recipe turns ${dishName} into a memorable meal, layering ${style.ingredients} from first bite to last.`,
-        `A fragrant serving of ${dish}, lifted by ${style.ingredients} and the warm character of ${countryName} cooking.`,
-        `Discover ${dish} through a lighter everyday lens, with ${style.ingredients} gathered into a distinctly ${countryName} combination.`,
-        `${dish} offers a rustic ${countryName} moment: ${style.ingredients}, brought together with care and served generously.`,
-        `The appeal of ${dish} is its contrast between ${style.ingredients}, creating a colourful recipe inspired by ${country}.`,
-        `Finish your culinary tour with ${dish}, where ${style.ingredients} give this ${countryName} specialty its own character.`
+        `${dish} brings a ${countryName} welcome to the table, built from ${profile.ingredients}.`,
+        `Built around ${dishName}, this ${countryName} favourite is ${profile.method}.`,
+        `For a taste of ${country}, try ${dish}: ${profile.ingredients}, brought together with an inviting homemade finish.`,
+        `${dish} takes centre stage here, with a ${countryName} approach that is ${profile.method}.`,
+        `This ${countryName} recipe turns ${dishName} into a memorable meal with ${profile.ingredients}.`,
+        `A fragrant serving of ${dish}, prepared with ${profile.ingredients} and the warm character of ${countryName} cooking.`,
+        `Discover ${dish} through a lighter everyday lens, keeping the ingredients fresh and the ${countryName} character clear.`,
+        `${dish} offers a rustic ${countryName} moment: ${profile.ingredients}, prepared with care and served generously.`,
+        `The appeal of ${dish} is its texture and contrast, created by ${profile.ingredients} in a recipe inspired by ${country}.`,
+        `Finish your culinary tour with ${dish}, where ${profile.ingredients} give this ${countryName} specialty its own character.`
     ];
 
     return descriptions[recipeIndex % descriptions.length];
