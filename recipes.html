@@ -1255,10 +1255,9 @@
             /* Build steps */
             const stepsList = document.getElementById("modalSteps");
             stepsList.innerHTML = "";
-            const numberedSteps = recipe.steps.map((step, index) => `${index + 1}. ${step.replace(/^\d+\.\s*/, "")}`);
-            numberedSteps.forEach(step => {
+            recipe.steps.forEach(step => {
                 const li = document.createElement("li");
-                li.innerText = step;
+                li.innerText = step.replace(/^\d+\.\s*/, "");
                 stepsList.appendChild(li);
             });
 

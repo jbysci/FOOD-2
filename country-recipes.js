@@ -204,7 +204,7 @@ function recipeProfileForDish(dish, style, countryIndex, recipeIndex) {
     };
 }
 
-function stepsForDish(dish, country, countryIndex, recipeIndex) {
+function legacyStepsForDish(dish, country, countryIndex, recipeIndex) {
     const name = dish.toLowerCase();
     const origin = `${country} style`;
     const variation = (countryIndex + recipeIndex) % 3;
@@ -315,6 +315,82 @@ function stepsForDish(dish, country, countryIndex, recipeIndex) {
     ];
 
     return [...baseSteps, dishPreparation, ...cookingSteps, finishingSteps[(countryIndex + recipeIndex) % finishingSteps.length]];
+}
+
+function stepsForDish(dish, country, countryIndex, recipeIndex) {
+    const name = dish.toLowerCase();
+    const origin = `${country} style`;
+    const variation = (countryIndex * 3 + recipeIndex) % 4;
+    const finishes = [
+        `Taste ${dish} and sharpen it with citrus, salt, or fresh herbs before serving.`,
+        `Let ${dish} rest briefly so the flavour settles, then serve it with its traditional accompaniment.`,
+        `Check the texture of ${dish}, adjust the seasoning, and bring it to the table while it is fresh.`,
+        `Finish ${dish} with the reserved garnish and serve it warm or cool, depending on its final texture.`
+    ];
+
+    if (/salad|tabbouleh|fattoush|pico|sambol|slaw/.test(name)) {
+        return [
+            `Wash and dry the produce for ${dish} completely; excess water would dilute the dressing.`,
+            `Cut the vegetables and herbs into different shapes so ${dish} has contrast in every bite.`,
+            `Whisk the ${origin} dressing separately, balancing its acid, salt, and oil before it touches the salad.`,
+            `Fold in the legumes, grains, or cheese gently so they stay intact rather than turning the mixture cloudy.`,
+            `Dress ${dish} at the last moment and leave it for two minutes to absorb the seasoning.`,
+            finishes[variation]
+        ];
+    }
+
+    if (/rice|biryani|pulao|pilau|risotto|paella|jollof|nasi|fried rice/.test(name)) {
+        return [
+            `Rinse the rice for ${dish} until the water runs mostly clear, then drain it while the aromatics are prepared.`,
+            `Toast the ${origin} spices in oil with onion and garlic until their aroma opens without burning.`,
+            `Stir the rice through the seasoned oil so every grain is coated before any liquid is added.`,
+            `Pour in the measured broth, bring it to a boil, then cover and cook over the lowest heat.`,
+            `Turn off the heat and leave ${dish} covered so the steam finishes the centre without making the grains mushy.`,
+            `Fluff ${dish} with a fork, fold through the vegetables or protein, and ${finishes[variation].toLowerCase()}`
+        ];
+    }
+
+    if (/soup|stew|curry|wat|chowder|broth|harira|sinigang|goulash/.test(name)) {
+        return [
+            `Warm a deep pot and soften the aromatics for ${dish} until they smell sweet and savoury.`,
+            `Bloom the ${origin} spices in the oil, stirring constantly so they colour the base without scorching.`,
+            `Add the vegetables, beans, or protein and turn them through the spice paste until coated.`,
+            `Pour in the stock or coconut liquid and scrape the bottom of the pot to release the browned flavour.`,
+            `Simmer ${dish} uncovered until the broth reduces and the main ingredients are tender; add liquid only when needed.`,
+            finishes[variation]
+        ];
+    }
+
+    if (/cake|torte|pie|pudding|cookie|biscuit|baklava|pastry|sweet|jamun|jalebi|mousse|flan|crepe|waffle|churro|dessert/.test(name)) {
+        return [
+            `Prepare the ${origin} sweet base for ${dish}, keeping the dry ingredients separate from the wet ones.`,
+            `Mix the batter, dough, or syrup only until smooth so the finished ${dish} stays tender.`,
+            `Shape ${dish} into even portions or settle it into a lined tin, leaving room for it to expand.`,
+            `Bake, griddle, fry, or chill it until the centre is set and the surface has the right colour.`,
+            `Cool ${dish} long enough for its crumb or filling to firm before adding the final topping.`,
+            finishes[variation]
+        ];
+    }
+
+    if (/dumpling|manti|momo|pierogi|ravioli|gyoza|pelmeni/.test(name)) {
+        return [
+            `Season the filling for ${dish} and keep it cool so the wrappers remain easy to handle.`,
+            `Place one measured portion in each wrapper, press out the air, and seal the edges firmly.`,
+            `Arrange the dumplings without touching so steam or hot oil can reach every side.`,
+            `Steam, boil, or pan-cook ${dish} until the wrapper is tender and the filling is fully cooked.`,
+            `Make the ${origin} dip or sauce in the same pan, using a splash of cooking water to loosen it.`,
+            finishes[variation]
+        ];
+    }
+
+    return [
+        `Season the main ingredients for ${dish} with the ${origin} spice blend and let them stand while the pan heats.`,
+        `Sear the protein, vegetables, or filling in a single layer until the surface develops a deep golden colour.`,
+        `Add the aromatics and cook them around ${dish} so they soften without losing their fragrance.`,
+        `Stir in the sauce, grain, or wrapper and lower the heat so the centre cooks before the outside dries.`,
+        `Remove ${dish} from the heat when the texture is tender, then rest it briefly before plating.`,
+        finishes[variation]
+    ];
 }
 
 worldCountries.forEach((country, countryIndex) => {
