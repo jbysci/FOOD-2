@@ -142,6 +142,37 @@ function stepsForDish(dish, country, countryIndex, recipeIndex) {
     const variation = (countryIndex + recipeIndex) % 3;
     const aromatics = ["onion, garlic, and ginger", "shallot, garlic, and fresh herbs", "onion, garlic, and a pinch of dried spices"][variation];
     const finish = ["fresh herbs and a squeeze of citrus", "a drizzle of the cooking sauce and chopped herbs", "a final pinch of spice and a little fresh garnish"][variation];
+
+    if (name === "draniki soup") {
+        return [
+            "Wash your hands, clear the work surface, and set out a board, knife, measuring tools, and the pan or pot needed to make Draniki Soup.",
+            "Measure every ingredient. Rinse the produce, trim any protein, and cut the vegetables into similar-sized pieces so they cook evenly.",
+            "Keep the prepared ingredients in separate bowls. This makes the Belarus style flavours easier to layer without overcooking anything.",
+            "Arrange the ingredients in the order they will be used, keeping delicate herbs, dairy, and garnishes separate until the end.",
+            "Warm oil in a heavy pot over medium heat. Cook the shallot, garlic, and fresh herbs slowly until softened and fragrant, without letting them brown too quickly.",
+            "Add the spices and stir for 30 seconds so the oil carries their aroma through the dish.",
+            "Add the main ingredients, turning them carefully until coated in the seasoned base, then pour in the stock, water, or sauce.",
+            "Bring the pot just to a simmer, reduce the heat, and cook partially covered until the vegetables and protein are tender; stir occasionally to prevent sticking.",
+            "Taste the broth or sauce, adjust salt and seasoning, then let Draniki Soup stand for 5 minutes before serving with a drizzle of the cooking sauce and chopped herbs.",
+            "Check Draniki Soup carefully before serving: the centre should be fully cooked, the vegetables should retain some texture, and the seasoning should taste balanced rather than overpowering."
+        ];
+    }
+
+    if (name === "mantu") {
+        return [
+            "Wash your hands, clear the work surface, and set out a board, knife, measuring tools, and the pan or pot needed to make Mantu.",
+            "Measure every ingredient. Rinse the produce, trim any protein, and cut the vegetables into similar-sized pieces so they cook evenly.",
+            "Keep the prepared ingredients in separate bowls. This makes the Afghanistan style flavours easier to layer without overcooking anything.",
+            "Arrange the ingredients in the order they will be used, keeping delicate herbs, dairy, and garnishes separate until the end.",
+            "Heat oil in a pan or pot over medium heat. Cook the shallot, garlic, and fresh herbs gently until soft and aromatic, scraping the base if anything begins to stick.",
+            "Add the main ingredients in batches if necessary, giving them space to brown lightly rather than steam.",
+            "Stir in the remaining Afghanistan style seasonings, then add any liquid, vegetables, or sauce a little at a time.",
+            "Lower the heat and cook until all components are tender and the flavours have combined; stir regularly and add a splash of water if the pan dries out.",
+            "Taste Mantu, adjust the final seasoning, rest it for a few minutes, and finish with a drizzle of the cooking sauce and chopped herbs.",
+            "Rest Mantu for 5 minutes so the juices, steam, or sauce settle. Taste one final bite and adjust with salt, acid, spice, or fresh herbs as appropriate."
+        ];
+    }
+
     const baseSteps = [
         `Wash your hands, clear the work surface, and set out a board, knife, measuring tools, and the pan or pot needed to make ${dish}.`,
         `Measure every ingredient. Rinse the produce, trim any protein, and cut the vegetables into similar-sized pieces so they cook evenly.`,
@@ -233,6 +264,25 @@ worldCountries.forEach((country, countryIndex) => {
     });
 });
 
+function countryRecipeDescription(country, dish, style, recipeIndex) {
+    const countryName = country.toLowerCase();
+    const dishName = dish.toLowerCase();
+    const descriptions = [
+        `${dish} brings a ${countryName} welcome to the table, pairing its signature flavours with ${style.ingredients}.`,
+        `Built around ${dishName}, this ${countryName} favourite balances ${style.ingredients} in a generous, comforting serving.`,
+        `For a taste of ${country}, try ${dish}: a dish shaped by ${style.ingredients} and an inviting homemade finish.`,
+        `${dish} takes centre stage here, with ${style.ingredients} adding colour, texture, and depth to the ${countryName} plate.`,
+        `This ${countryName} recipe turns ${dishName} into a memorable meal, layering ${style.ingredients} from first bite to last.`,
+        `A fragrant serving of ${dish}, lifted by ${style.ingredients} and the warm character of ${countryName} cooking.`,
+        `Discover ${dish} through a lighter everyday lens, with ${style.ingredients} gathered into a distinctly ${countryName} combination.`,
+        `${dish} offers a rustic ${countryName} moment: ${style.ingredients}, brought together with care and served generously.`,
+        `The appeal of ${dish} is its contrast between ${style.ingredients}, creating a colourful recipe inspired by ${country}.`,
+        `Finish your culinary tour with ${dish}, where ${style.ingredients} give this ${countryName} specialty its own character.`
+    ];
+
+    return descriptions[recipeIndex % descriptions.length];
+}
+
 function renderCountryRecipes(country) {
     const grid = document.getElementById("countryRecipeGrid");
     if (!grid) return;
@@ -247,7 +297,7 @@ function renderCountryRecipes(country) {
                 <div class="recipe-body">
                     <span class="country-tag">${country}</span>
                     <h3>${dish}</h3>
-                    <p>A traditional ${country.toLowerCase()} dish featuring ${dish.toLowerCase()} and ${style.ingredients}.</p>
+                    <p>${countryRecipeDescription(country, dish, style, recipeIndex)}</p>
                     <div class="recipe-info"><span>${recipe.cal}</span><span>${recipe.time}</span></div>
                     <button class="btn btn-primary" onclick="showRecipe('${name.replace(/'/g, "\\'")}')">View Recipe</button>
                 </div>
