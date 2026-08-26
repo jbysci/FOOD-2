@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NutriLife Tips — Get daily healthy eating tips and practical advice for a better lifestyle.">
+    <title>Health Tips — NutriLife</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- =========================
+     NAVIGATION
+========================= -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="food2.html" class="logo">
+                Nutri<span>Life</span> 🥗
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="food2.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="nutrition.html">Nutrition</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="tips.html" class="active">Tips</a></li>
+            </ul>
+
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+     PAGE HERO
+========================= -->
+
+    <div class="page-hero">
+        <span class="page-icon">💡</span>
+        <h1>Healthy <span>Tips</span></h1>
+        <p>Small daily habits that lead to big, lasting results.</p>
+    </div>
+
+
+    <!-- =========================
+     TIP OF THE DAY
+========================= -->
+
+    <section class="tips" id="tips">
+
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Tip of the Day</h2>
+                <p>Get a little inspiration every day.</p>
+            </div>
+
+            <div class="tip-box">
+
+                <div id="tipText">
+                    Drink enough water throughout the day and
+                    keep a reusable bottle nearby.
+                </div>
+
+                <button class="btn btn-primary" onclick="newTip()">
+                    New Tip
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+             TIP CARDS
+            ========================= -->
+
+            <div class="tips-grid">
+
+                <div class="tip-card">
+                    <span class="tip-icon">🥤</span>
+                    <h3>Stay Hydrated</h3>
+                    <p>Drink water before meals to stay hydrated and support digestion. Aim for 6–8 glasses a day.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">🌈</span>
+                    <h3>Eat the Rainbow</h3>
+                    <p>Include a variety of colourful fruits and vegetables in your meals for a broad range of nutrients.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">🕐</span>
+                    <h3>Don't Skip Breakfast</h3>
+                    <p>A balanced breakfast kickstarts your metabolism and helps you make better food choices all day.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">🧘</span>
+                    <h3>Mindful Eating</h3>
+                    <p>Eat slowly, enjoy your food, and listen to your body's hunger and fullness signals.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">📝</span>
+                    <h3>Plan Ahead</h3>
+                    <p>Meal planning helps you make healthier choices and reduces the temptation of fast food.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">🍎</span>
+                    <h3>Snack Smart</h3>
+                    <p>Choose whole fruits, nuts, or yogurt over processed snacks to keep energy levels steady.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>🥗 NutriLife</h3>
+                <p>
+                    Helping people discover simple,
+                    delicious and balanced ways to eat better.
+                </p>
+            </div>
+
+            <div>
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="recipes.html">Recipes</a></li>
+                    <li><a href="nutrition.html">Nutrition</a></li>
+                    <li><a href="planner.html">Meal Planner</a></li>
+                    <li><a href="tips.html">Health Tips</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Follow Us</h3>
+                <ul>
+                    <li>📸 Instagram</li>
+                    <li>📘 Facebook</li>
+                    <li>🐦 Twitter</li>
+                    <li>▶️ YouTube</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 NutriLife. Eat well. Live well.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+     JAVASCRIPT
+========================= -->
+
+    <script>
+
+        /* MOBILE MENU */
+
+        function toggleMenu() {
+            document
+                .getElementById("navLinks")
+                .classList.toggle("show");
+        }
+
+
+        /* HEALTH TIPS */
+
+        const tips = [
+
+            "Drink enough water throughout the day and keep a reusable bottle nearby.",
+
+            "Try to include vegetables or fruit in most meals.",
+
+            "Choose whole grains when possible for more fiber.",
+
+            "Add a source of protein to meals to help keep you satisfied.",
+
+            "Plan your meals ahead of time to make healthy choices easier.",
+
+            "Eat slowly and pay attention to when you feel comfortably full.",
+
+            "Choose minimally processed foods more often.",
+
+            "A balanced diet is about consistency, not perfection.",
+
+            "Try cooking one new healthy recipe each week to keep things interesting.",
+
+            "Read food labels to become more aware of what you're eating.",
+
+            "Swap sugary drinks for water, herbal tea, or infused water.",
+
+            "Keep healthy snacks visible and within easy reach."
+
+        ];
+
+        function newTip() {
+
+            const random =
+                Math.floor(
+                    Math.random() * tips.length
+                );
+
+            document
+                .getElementById("tipText")
+                .innerText = tips[random];
+
+        }
+
+    </script>
+
+</body>
+
+</html>

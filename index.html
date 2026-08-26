@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NutriLife — Discover delicious recipes, nutrition advice, and healthy habits to help you live your best life.">
+    <title>NutriLife — Healthy Eating</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- =========================
+     NAVIGATION
+========================= -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="food2.html" class="logo">
+                Nutri<span>Life</span> 🥗
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="food2.html" class="active">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="nutrition.html">Nutrition</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="tips.html">Tips</a></li>
+            </ul>
+
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+     HERO
+========================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <h1>
+                Eat Better.<br>
+                Feel <span>Better.</span>
+            </h1>
+
+            <p>
+                Discover delicious recipes, simple nutrition advice,
+                and healthy habits designed to help you live your best life.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="recipes.html">
+                    <button class="btn btn-primary">
+                        Explore Recipes
+                    </button>
+                </a>
+
+                <a href="planner.html">
+                    <button class="btn btn-secondary">
+                        Build My Meal Plan
+                    </button>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     BENEFITS
+========================= -->
+
+    <section class="benefits">
+
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Why Eat Healthy?</h2>
+                <p>Small choices can make a big difference.</p>
+            </div>
+
+            <div class="benefit-grid">
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>More Energy</h3>
+                    <p>Give your body the nutrients it needs to stay energized.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧠</div>
+                    <h3>Better Focus</h3>
+                    <p>Healthy foods can support concentration and mental performance.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">❤️</div>
+                    <h3>Heart Health</h3>
+                    <p>Choose balanced foods that support your overall wellbeing.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">💪</div>
+                    <h3>Strong Body</h3>
+                    <p>Protein, vitamins and minerals help support your body.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     NEWSLETTER
+========================= -->
+
+    <section class="newsletter">
+
+        <div class="newsletter-box">
+
+            <h2>Join the NutriLife Community</h2>
+
+            <p>
+                Get healthy recipes and nutrition tips delivered
+                straight to your inbox.
+            </p>
+
+            <form class="newsletter-form" onsubmit="subscribe(event)">
+
+                <input type="email" id="email" placeholder="Enter your email" required>
+
+                <button type="submit">
+                    Subscribe
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+            <div>
+
+                <h3>🥗 NutriLife</h3>
+
+                <p>
+                    Helping people discover simple,
+                    delicious and balanced ways to eat better.
+                </p>
+
+            </div>
+
+            <div>
+
+                <h3>Explore</h3>
+
+                <ul>
+                    <li><a href="recipes.html">Recipes</a></li>
+                    <li><a href="nutrition.html">Nutrition</a></li>
+                    <li><a href="planner.html">Meal Planner</a></li>
+                    <li><a href="tips.html">Health Tips</a></li>
+                </ul>
+
+            </div>
+
+            <div>
+
+                <h3>Follow Us</h3>
+
+                <ul>
+                    <li>📸 Instagram</li>
+                    <li>📘 Facebook</li>
+                    <li>🐦 Twitter</li>
+                    <li>▶️ YouTube</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="copyright">
+
+            © 2026 NutriLife. Eat well. Live well.
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+     JAVASCRIPT
+========================= -->
+
+    <script>
+
+        /* MOBILE MENU */
+
+        function toggleMenu() {
+            document
+                .getElementById("navLinks")
+                .classList.toggle("show");
+        }
+
+
+        /* NEWSLETTER */
+
+        function subscribe(event) {
+
+            event.preventDefault();
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value;
+
+            alert(
+                "Thanks for subscribing! 🥗\n\n" +
+                email +
+                " has been added to the NutriLife newsletter."
+            );
+
+            document
+                .getElementById("email")
+                .value = "";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

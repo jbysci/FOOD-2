@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NutriLife Recipes — Discover healthy and delicious recipes for breakfast, lunch, and dinner.">
+    <title>Recipes — NutriLife</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- =========================
+     NAVIGATION
+========================= -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="food2.html" class="logo">
+                Nutri<span>Life</span> 🥗
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="food2.html">Home</a></li>
+                <li><a href="recipes.html" class="active">Recipes</a></li>
+                <li><a href="nutrition.html">Nutrition</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="tips.html">Tips</a></li>
+            </ul>
+
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+     PAGE HERO
+========================= -->
+
+    <div class="page-hero">
+        <span class="page-icon">🍳</span>
+        <h1>Healthy <span>Recipes</span></h1>
+        <p>Find your next favorite meal — simple, wholesome, and delicious.</p>
+    </div>
+
+
+    <!-- =========================
+     RECIPES
+========================= -->
+
+    <section class="recipes" id="recipes">
+
+        <div class="container">
+
+            <div class="recipe-tools">
+
+                <input type="text" id="searchBox" placeholder="🔎 Search recipes..." onkeyup="searchRecipes()">
+
+                <button class="filter-btn active" onclick="filterRecipes('all', this)">
+                    All
+                </button>
+
+                <button class="filter-btn" onclick="filterRecipes('breakfast', this)">
+                    Breakfast
+                </button>
+
+                <button class="filter-btn" onclick="filterRecipes('lunch', this)">
+                    Lunch
+                </button>
+
+                <button class="filter-btn" onclick="filterRecipes('dinner', this)">
+                    Dinner
+                </button>
+
+                <button class="filter-btn" onclick="filterRecipes('snack', this)">
+                    Snacks
+                </button>
+
+            </div>
+
+
+            <div class="recipe-grid" id="recipeGrid">
+
+                <!-- RECIPE 1 -->
+
+                <div class="recipe-card" data-category="breakfast">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Avocado Toast</h3>
+
+                        <p>
+                            A colorful salad of leafy greens with avocado,
+                            tomatoes and seeds.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 320 kcal</span>
+                            <span>⏱ 10 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Avocado Toast')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 2 -->
+
+                <div class="recipe-card" data-category="breakfast">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Berry Smoothie</h3>
+
+                        <p>
+                            A refreshing smoothie packed with berries,
+                            banana and natural yogurt.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 250 kcal</span>
+                            <span>⏱ 5 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Berry Smoothie')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 3 -->
+
+                <div class="recipe-card" data-category="lunch">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Power Salad</h3>
+
+                        <p>
+                            Fresh vegetables, chickpeas, avocado and
+                            a light homemade dressing.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 410 kcal</span>
+                            <span>⏱ 15 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Power Salad')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 4 -->
+
+                <div class="recipe-card" data-category="lunch">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Chicken Bowl</h3>
+
+                        <p>
+                            Grilled chicken with brown rice, vegetables
+                            and fresh herbs.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 520 kcal</span>
+                            <span>⏱ 25 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Chicken Bowl')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 5 -->
+
+                <div class="recipe-card" data-category="dinner">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Grilled Salmon</h3>
+
+                        <p>
+                            Grilled salmon served with vegetables and
+                            a fresh lemon dressing.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 480 kcal</span>
+                            <span>⏱ 25 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Grilled Salmon')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 6 -->
+
+                <div class="recipe-card" data-category="dinner">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Veggie Pasta</h3>
+
+                        <p>
+                            Whole-grain pasta with colorful vegetables
+                            and tomato sauce.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 430 kcal</span>
+                            <span>⏱ 20 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Veggie Pasta')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 7 -->
+
+                <div class="recipe-card" data-category="breakfast">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Greek Yogurt Parfait</h3>
+
+                        <p>
+                            Layers of Greek yogurt, granola, honey
+                            and mixed fresh berries.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 280 kcal</span>
+                            <span>⏱ 5 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Greek Yogurt Parfait')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 8 -->
+
+                <div class="recipe-card" data-category="breakfast">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Overnight Oats</h3>
+
+                        <p>
+                            Oats soaked overnight in almond milk with
+                            chia seeds, banana and peanut butter.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 350 kcal</span>
+                            <span>⏱ 5 min prep</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Overnight Oats')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 9 -->
+
+                <div class="recipe-card" data-category="lunch">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Quinoa Buddha Bowl</h3>
+
+                        <p>
+                            Fresh leafy greens with avocado, tomatoes,
+                            chickpeas and a light dressing.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 460 kcal</span>
+                            <span>⏱ 30 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Quinoa Buddha Bowl')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 10 -->
+
+                <div class="recipe-card" data-category="dinner">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Stuffed Bell Peppers</h3>
+
+                        <p>
+                            Colourful bell peppers filled with lean
+                            turkey, rice, tomatoes and melted cheese.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 390 kcal</span>
+                            <span>⏱ 35 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Stuffed Bell Peppers')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 11 -->
+
+                <div class="recipe-card" data-category="dinner">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Shrimp Stir-Fry</h3>
+
+                        <p>
+                            Juicy shrimp tossed with colorful vegetables
+                            in a light ginger-soy sauce.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 360 kcal</span>
+                            <span>⏱ 15 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Shrimp Stir-Fry')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 12 -->
+
+                <div class="recipe-card" data-category="snack">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Energy Bites</h3>
+
+                        <p>
+                            No-bake bites made with oats, peanut butter,
+                            honey, dark chocolate chips and flaxseed.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 150 kcal</span>
+                            <span>⏱ 10 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Energy Bites')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 13 -->
+
+                <div class="recipe-card" data-category="snack">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Hummus & Veggie Sticks</h3>
+
+                        <p>
+                            Creamy homemade hummus served with
+                            carrot, cucumber and celery sticks.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 180 kcal</span>
+                            <span>⏱ 10 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Hummus & Veggie Sticks')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <!-- RECIPE 14 -->
+
+                <div class="recipe-card" data-category="snack">
+
+                    <div class="recipe-body">
+
+                        <button class="favorite" onclick="favorite(this)">
+                            ♡
+                        </button>
+
+                        <h3>Super Trail Mix</h3>
+
+                        <p>
+                            A mix of almonds, walnuts, dried cranberries,
+                            pumpkin seeds and dark chocolate.
+                        </p>
+
+                        <div class="recipe-info">
+                            <span>🔥 210 kcal</span>
+                            <span>⏱ 2 min</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showRecipe('Super Trail Mix')">
+                            View Recipe
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     RECIPES AROUND THE WORLD
+========================= -->
+
+    <section class="world-recipes" id="world-recipes">
+
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Recipes Around the World</h2>
+                <p>Choose a country to explore ten recipes inspired by its cuisine.</p>
+            </div>
+
+            <div class="world-controls">
+                <label for="countrySelect">Browse by country</label>
+                <select id="countrySelect" onchange="renderCountryRecipes(this.value)"></select>
+            </div>
+
+            <div class="recipe-grid" id="countryRecipeGrid"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     RECIPE MODAL
+========================= -->
+
+    <div class="recipe-modal-overlay" id="recipeModal" onclick="closeModalOverlay(event)">
+
+        <div class="recipe-modal">
+
+            <button class="recipe-modal-close" onclick="closeModal()">✕</button>
+
+            <div class="recipe-modal-body">
+
+                <h2 id="modalTitle"></h2>
+
+                <div class="recipe-modal-meta">
+                    <span id="modalCal"></span>
+                    <span id="modalTime"></span>
+                </div>
+
+                <div class="recipe-modal-section">
+                    <h3><span class="section-icon">🧾</span> Ingredients</h3>
+                    <ul class="ingredients-list" id="modalIngredients"></ul>
+                </div>
+
+                <div class="recipe-modal-section">
+                    <h3><span class="section-icon">👨‍🍳</span> Step by Step</h3>
+                    <ol class="steps-list" id="modalSteps"></ol>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>🥗 NutriLife</h3>
+                <p>
+                    Helping people discover simple,
+                    delicious and balanced ways to eat better.
+                </p>
+            </div>
+
+            <div>
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="recipes.html">Recipes</a></li>
+                    <li><a href="nutrition.html">Nutrition</a></li>
+                    <li><a href="planner.html">Meal Planner</a></li>
+                    <li><a href="tips.html">Health Tips</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Follow Us</h3>
+                <ul>
+                    <li>📸 Instagram</li>
+                    <li>📘 Facebook</li>
+                    <li>🐦 Twitter</li>
+                    <li>▶️ YouTube</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 NutriLife. Eat well. Live well.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+     JAVASCRIPT
+========================= -->
+
+    <script src="country-recipes.js"></script>
+
+    <script>
+
+        /* MOBILE MENU */
+
+        function toggleMenu() {
+            document
+                .getElementById("navLinks")
+                .classList.toggle("show");
+        }
+
+
+        /* RECIPE SEARCH */
+
+        function searchRecipes() {
+
+            const search =
+                document
+                    .getElementById("searchBox")
+                    .value
+                    .toLowerCase();
+
+            const cards =
+                document.querySelectorAll(".recipe-card");
+
+            cards.forEach(card => {
+
+                const text =
+                    card.innerText.toLowerCase();
+
+                card.style.display =
+                    text.includes(search)
+                        ? "block"
+                        : "none";
+
+            });
+
+        }
+
+
+        /* RECIPE FILTER */
+
+        function filterRecipes(category, button) {
+
+            const cards =
+                document.querySelectorAll("#recipeGrid .recipe-card");
+
+            const buttons =
+                document.querySelectorAll(".filter-btn");
+
+            buttons.forEach(btn =>
+                btn.classList.remove("active")
+            );
+
+            button.classList.add("active");
+
+            cards.forEach(card => {
+
+                if (
+                    category === "all" ||
+                    card.dataset.category === category
+                ) {
+
+                    card.style.display = "block";
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+
+        /* FAVORITES */
+
+        function favorite(button) {
+
+            if (button.innerText === "♡") {
+
+                button.innerText = "♥";
+                button.style.color = "#e74c3c";
+
+            } else {
+
+                button.innerText = "♡";
+                button.style.color = "";
+
+            }
+
+        }
+
+
+        /* ===========================
+           FULL RECIPE DATA
+        =========================== */
+
+        const recipes = {
+
+            "Avocado Toast": {
+                img: "https://loremflickr.com/900/600/food,quinoa?lock=9",
+                cal: "🔥 320 kcal",
+                time: "⏱ 10 min",
+                ingredients: [
+                    "2 slices whole-grain bread",
+                    "1 ripe avocado",
+                    "1 small tomato, sliced",
+                    "1 tbsp mixed seeds",
+                    "Pinch of salt & pepper",
+                    "Squeeze of lemon juice",
+                    "Red pepper flakes (optional)"
+                ],
+                steps: [
+                    "Toast the whole-grain bread slices until golden and crispy.",
+                    "Cut the avocado in half, remove the pit, and scoop the flesh into a bowl.",
+                    "Mash the avocado with a fork and add a squeeze of lemon juice, salt and pepper.",
+                    "Spread the mashed avocado evenly onto each slice of toast.",
+                    "Top with sliced tomatoes and sprinkle with mixed seeds.",
+                    "Add red pepper flakes if desired and serve immediately."
+                ]
+            },
+
+            "Berry Smoothie": {
+                img: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 250 kcal",
+                time: "⏱ 5 min",
+                ingredients: [
+                    "1 cup mixed berries (fresh or frozen)",
+                    "1 banana",
+                    "½ cup Greek yogurt",
+                    "½ cup water or milk",
+                    "1 tbsp honey (optional)",
+                    "Handful of ice cubes"
+                ],
+                steps: [
+                    "Add the mixed berries, banana and Greek yogurt to a blender.",
+                    "Pour in the water or milk.",
+                    "Add honey if you'd like extra sweetness.",
+                    "Drop in a handful of ice cubes for a cold, thick texture.",
+                    "Blend on high for 30–45 seconds until completely smooth.",
+                    "Pour into a glass, add a few berries on top, and enjoy."
+                ]
+            },
+
+            "Power Salad": {
+                img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 410 kcal",
+                time: "⏱ 15 min",
+                ingredients: [
+                    "2 cups mixed leafy greens",
+                    "½ can chickpeas, drained",
+                    "½ avocado, cubed",
+                    "¼ cup cherry tomatoes, halved",
+                    "¼ cucumber, sliced",
+                    "2 tbsp olive oil",
+                    "1 tbsp lemon juice",
+                    "Salt & pepper to taste"
+                ],
+                steps: [
+                    "Wash and dry the leafy greens and place them in a large bowl.",
+                    "Drain and rinse the chickpeas, then add them to the bowl.",
+                    "Cut the avocado into cubes, halve the cherry tomatoes, and slice the cucumber.",
+                    "Add the avocado, tomatoes and cucumber to the greens.",
+                    "Whisk together the olive oil, lemon juice, salt and pepper in a small bowl.",
+                    "Drizzle the dressing over the salad, toss gently, and serve."
+                ]
+            },
+
+            "Chicken Bowl": {
+                img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 520 kcal",
+                time: "⏱ 25 min",
+                ingredients: [
+                    "1 chicken breast",
+                    "¾ cup brown rice",
+                    "1 cup mixed vegetables (peppers, broccoli, carrots)",
+                    "1 tbsp olive oil",
+                    "1 tsp garlic powder",
+                    "Fresh herbs (parsley, cilantro)",
+                    "Salt & pepper"
+                ],
+                steps: [
+                    "Cook the brown rice according to the package instructions.",
+                    "Season the chicken breast with garlic powder, salt and pepper.",
+                    "Heat olive oil in a pan over medium-high heat.",
+                    "Grill the chicken for about 6–7 minutes per side until fully cooked, then slice it.",
+                    "In the same pan, sauté the mixed vegetables for 4–5 minutes until tender-crisp.",
+                    "Assemble the bowl: place rice at the base, add sliced chicken and vegetables.",
+                    "Garnish with fresh herbs and serve."
+                ]
+            },
+
+            "Grilled Salmon": {
+                img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 480 kcal",
+                time: "⏱ 25 min",
+                ingredients: [
+                    "1 salmon fillet (180g)",
+                    "1 tbsp olive oil",
+                    "1 lemon (juice + slices)",
+                    "2 cloves garlic, minced",
+                    "Fresh dill or parsley",
+                    "1 cup steamed vegetables",
+                    "Salt & pepper"
+                ],
+                steps: [
+                    "Preheat your grill or grill pan to medium-high heat.",
+                    "Pat the salmon dry and brush both sides with olive oil.",
+                    "Season with minced garlic, lemon juice, salt and pepper.",
+                    "Place the salmon skin-side down on the grill.",
+                    "Cook for 4–5 minutes per side until the fish flakes easily with a fork.",
+                    "While the salmon cooks, steam your choice of vegetables until tender.",
+                    "Plate the salmon over the vegetables, garnish with dill and lemon slices."
+                ]
+            },
+
+            "Veggie Pasta": {
+                img: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 430 kcal",
+                time: "⏱ 20 min",
+                ingredients: [
+                    "200g whole-grain pasta",
+                    "1 cup cherry tomatoes, halved",
+                    "1 courgette, diced",
+                    "1 bell pepper, sliced",
+                    "2 cloves garlic, minced",
+                    "2 tbsp olive oil",
+                    "½ cup tomato sauce",
+                    "Fresh basil leaves",
+                    "Parmesan (optional)"
+                ],
+                steps: [
+                    "Bring a large pot of salted water to a boil and cook the pasta until al dente.",
+                    "While the pasta cooks, heat olive oil in a large pan over medium heat.",
+                    "Add the minced garlic and sauté for 30 seconds until fragrant.",
+                    "Add the diced courgette, sliced bell pepper and cherry tomatoes to the pan.",
+                    "Cook the vegetables for 5–6 minutes, stirring occasionally, until softened.",
+                    "Pour in the tomato sauce and stir to combine. Simmer for 2 minutes.",
+                    "Drain the pasta and toss it into the pan with the vegetables.",
+                    "Serve topped with fresh basil and a sprinkle of Parmesan if desired."
+                ]
+            },
+
+            "Greek Yogurt Parfait": {
+                img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 280 kcal",
+                time: "⏱ 5 min",
+                ingredients: [
+                    "1 cup Greek yogurt",
+                    "¼ cup granola",
+                    "½ cup mixed berries",
+                    "1 tbsp honey",
+                    "1 tbsp chia seeds (optional)"
+                ],
+                steps: [
+                    "Spoon half of the Greek yogurt into the bottom of a glass or bowl.",
+                    "Add a layer of granola on top of the yogurt.",
+                    "Add half of the mixed berries.",
+                    "Repeat with another layer of yogurt, granola and the remaining berries.",
+                    "Drizzle honey over the top and sprinkle with chia seeds if using.",
+                    "Serve immediately or refrigerate for up to 2 hours."
+                ]
+            },
+
+            "Overnight Oats": {
+                img: "https://images.unsplash.com/photo-1517673400267-0251440c45dc?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 350 kcal",
+                time: "⏱ 5 min prep",
+                ingredients: [
+                    "½ cup rolled oats",
+                    "½ cup almond milk",
+                    "1 tbsp chia seeds",
+                    "1 tbsp peanut butter",
+                    "1 banana, sliced",
+                    "1 tsp honey or maple syrup"
+                ],
+                steps: [
+                    "Add the rolled oats and chia seeds to a jar or container.",
+                    "Pour in the almond milk and stir to combine.",
+                    "Add the peanut butter and honey, then mix everything together.",
+                    "Cover the jar and place it in the fridge overnight (or at least 4 hours).",
+                    "In the morning, give the oats a good stir.",
+                    "Top with sliced banana and any other toppings you like. Enjoy cold!"
+                ]
+            },
+
+            "Quinoa Buddha Bowl": {
+                img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 460 kcal",
+                time: "⏱ 30 min",
+                ingredients: [
+                    "½ cup quinoa",
+                    "1 sweet potato, cubed",
+                    "1 cup kale, chopped",
+                    "½ can chickpeas, drained",
+                    "1 tbsp olive oil",
+                    "2 tbsp tahini",
+                    "1 tbsp lemon juice",
+                    "Salt, pepper & paprika"
+                ],
+                steps: [
+                    "Preheat your oven to 200°C (400°F).",
+                    "Toss the cubed sweet potato with olive oil, salt, pepper and paprika.",
+                    "Spread on a baking tray and roast for 20–25 minutes until golden.",
+                    "Meanwhile, cook the quinoa according to package instructions.",
+                    "Massage the kale with a little olive oil and lemon juice until it softens.",
+                    "Warm the chickpeas in a pan with a pinch of paprika.",
+                    "Mix tahini with lemon juice and a splash of water to make a dressing.",
+                    "Assemble the bowl: quinoa base, topped with sweet potato, kale and chickpeas.",
+                    "Drizzle with the tahini dressing and serve."
+                ]
+            },
+
+            "Stuffed Bell Peppers": {
+                img: "https://images.unsplash.com/photo-1564834724105-918b73d1b8e0?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 390 kcal",
+                time: "⏱ 35 min",
+                ingredients: [
+                    "4 bell peppers (any colour)",
+                    "250g lean turkey mince",
+                    "½ cup cooked rice",
+                    "1 cup diced tomatoes",
+                    "½ cup shredded cheese",
+                    "1 tsp cumin",
+                    "1 tsp garlic powder",
+                    "Salt & pepper"
+                ],
+                steps: [
+                    "Preheat the oven to 190°C (375°F).",
+                    "Cut the tops off the bell peppers and remove the seeds.",
+                    "Cook the turkey mince in a pan until browned, breaking it up as it cooks.",
+                    "Add the diced tomatoes, cooked rice, cumin, garlic powder, salt and pepper.",
+                    "Stir everything together and cook for 2–3 minutes.",
+                    "Stuff each pepper generously with the turkey and rice mixture.",
+                    "Place the peppers upright in a baking dish and top with shredded cheese.",
+                    "Bake for 20–25 minutes until the peppers are tender and the cheese is melted.",
+                    "Let cool slightly before serving."
+                ]
+            },
+
+            "Shrimp Stir-Fry": {
+                img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 360 kcal",
+                time: "⏱ 15 min",
+                ingredients: [
+                    "200g shrimp, peeled",
+                    "1 bell pepper, sliced",
+                    "1 cup snap peas",
+                    "1 cup broccoli florets",
+                    "2 cloves garlic, minced",
+                    "1 tbsp fresh ginger, grated",
+                    "2 tbsp soy sauce",
+                    "1 tbsp sesame oil",
+                    "Cooked rice for serving"
+                ],
+                steps: [
+                    "Heat sesame oil in a wok or large pan over high heat.",
+                    "Add the shrimp and cook for 2 minutes per side until pink. Remove and set aside.",
+                    "In the same pan, add garlic and ginger. Stir for 30 seconds.",
+                    "Add the sliced bell pepper, snap peas and broccoli florets.",
+                    "Stir-fry the vegetables for 3–4 minutes until tender-crisp.",
+                    "Return the shrimp to the pan and pour in the soy sauce.",
+                    "Toss everything together for 1 minute until well coated.",
+                    "Serve hot over cooked rice."
+                ]
+            },
+
+            "Energy Bites": {
+                img: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 150 kcal",
+                time: "⏱ 10 min",
+                ingredients: [
+                    "1 cup rolled oats",
+                    "½ cup peanut butter",
+                    "⅓ cup honey",
+                    "¼ cup dark chocolate chips",
+                    "2 tbsp ground flaxseed",
+                    "1 tsp vanilla extract"
+                ],
+                steps: [
+                    "Add all ingredients to a large mixing bowl.",
+                    "Stir everything together until well combined.",
+                    "If the mixture is too sticky, refrigerate for 10 minutes to firm up.",
+                    "Scoop out small portions and roll them into balls using your hands.",
+                    "Place the bites on a lined baking tray or plate.",
+                    "Refrigerate for at least 30 minutes before eating.",
+                    "Store in an airtight container in the fridge for up to one week."
+                ]
+            },
+
+            "Hummus & Veggie Sticks": {
+                img: "https://images.unsplash.com/photo-1622484212850-eb596d769edc?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 180 kcal",
+                time: "⏱ 10 min",
+                ingredients: [
+                    "1 can (400g) chickpeas, drained",
+                    "2 tbsp tahini",
+                    "2 tbsp olive oil",
+                    "1 clove garlic",
+                    "Juice of 1 lemon",
+                    "Pinch of cumin & salt",
+                    "Carrots, cucumber & celery sticks"
+                ],
+                steps: [
+                    "Drain and rinse the chickpeas thoroughly.",
+                    "Add the chickpeas, tahini, olive oil, garlic, lemon juice, cumin and salt to a food processor.",
+                    "Blend on high for 2–3 minutes, scraping down the sides as needed.",
+                    "If the hummus is too thick, add a tablespoon of water at a time until smooth.",
+                    "Taste and adjust seasoning — add more lemon, salt or cumin as desired.",
+                    "Transfer to a serving bowl, drizzle with olive oil and a sprinkle of paprika.",
+                    "Wash and cut carrots, cucumber and celery into sticks, and serve alongside."
+                ]
+            },
+
+            "Fresh Fish Tacos": {
+                img: "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 380 kcal",
+                time: "⏱ 25 min",
+                ingredients: ["4 corn tortillas", "2 white fish fillets", "1 cup shredded cabbage", "1 avocado", "1 lime"],
+                steps: ["Season and pan-cook the fish until flaky.", "Warm the tortillas and fill them with cabbage and fish.", "Top with avocado and a squeeze of lime."]
+            },
+
+            "Salmon Sushi Bowl": {
+                img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 450 kcal",
+                time: "⏱ 20 min",
+                ingredients: ["1 cup cooked sushi rice", "1 salmon fillet", "½ cucumber", "½ avocado", "1 tbsp sesame dressing"],
+                steps: ["Cook the salmon and flake it into bite-sized pieces.", "Arrange rice, salmon, cucumber and avocado in a bowl.", "Drizzle with sesame dressing and serve."]
+            },
+
+            "Chickpea Curry": {
+                img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 340 kcal",
+                time: "⏱ 30 min",
+                ingredients: ["1 can chickpeas", "1 cup chopped tomatoes", "1 cup spinach", "1 tsp curry powder", "½ cup vegetable stock"],
+                steps: ["Saute the spices and tomatoes in a pan.", "Add chickpeas and stock, then simmer for 15 minutes.", "Stir in spinach until wilted and serve."]
+            },
+
+            "Greek Salad": {
+                img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 290 kcal",
+                time: "⏱ 15 min",
+                ingredients: ["2 tomatoes", "1 cucumber", "¼ red onion", "¼ cup olives", "½ cup feta", "2 tbsp olive oil"],
+                steps: ["Chop the vegetables and add them to a bowl.", "Add olives and feta.", "Toss with olive oil, herbs and a little lemon juice."]
+            },
+
+            "Moroccan Couscous": {
+                img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 410 kcal",
+                time: "⏱ 25 min",
+                ingredients: ["1 cup couscous", "1 cup vegetable stock", "1 cup roasted vegetables", "½ cup chickpeas", "2 tbsp raisins"],
+                steps: ["Pour hot stock over couscous and let it stand for 5 minutes.", "Fluff the couscous and fold in vegetables, chickpeas and raisins.", "Finish with fresh herbs and serve warm."]
+            },
+
+            "Garden Vegetable Pasta": {
+                img: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 430 kcal",
+                time: "⏱ 20 min",
+                ingredients: ["200g pasta", "1 cup seasonal vegetables", "½ cup tomato sauce", "2 garlic cloves", "Fresh basil"],
+                steps: ["Cook the pasta until al dente.", "Saute garlic and vegetables until tender.", "Toss with tomato sauce and pasta, then finish with basil."]
+            },
+
+            "Super Trail Mix": {
+                img: "https://images.unsplash.com/photo-1599599810694-b5b37304c041?auto=format&fit=crop&w=900&q=80",
+                cal: "🔥 210 kcal",
+                time: "⏱ 2 min",
+                ingredients: [
+                    "¼ cup almonds",
+                    "¼ cup walnuts",
+                    "2 tbsp dried cranberries",
+                    "2 tbsp pumpkin seeds",
+                    "2 tbsp dark chocolate chips",
+                    "Pinch of sea salt (optional)"
+                ],
+                steps: [
+                    "Measure out all the nuts, seeds, dried fruit and chocolate chips.",
+                    "Combine everything in a bowl and toss gently to mix.",
+                    "Add a tiny pinch of sea salt if desired for a sweet-salty contrast.",
+                    "Transfer to a jar or resealable bag for easy grab-and-go snacking.",
+                    "Store in a cool, dry place — stays fresh for up to 2 weeks."
+                ]
+            }
+
+        };
+
+
+        /* ===========================
+           SHOW RECIPE MODAL
+        =========================== */
+
+        function showRecipe(name) {
+
+            const recipe = recipes[name] || worldRecipes[name];
+            if (!recipe) return;
+
+            /* Set title and meta */
+            document.getElementById("modalTitle").innerText = name;
+            document.getElementById("modalCal").innerText = recipe.cal;
+            document.getElementById("modalTime").innerText = recipe.time;
+
+            /* Build ingredients */
+            const ingredientsList = document.getElementById("modalIngredients");
+            ingredientsList.innerHTML = "";
+            recipe.ingredients.forEach(item => {
+                const li = document.createElement("li");
+                li.innerText = `${item} — Use: ${ingredientUse(item, name)}`;
+                ingredientsList.appendChild(li);
+            });
+
+            /* Build steps */
+            const stepsList = document.getElementById("modalSteps");
+            stepsList.innerHTML = "";
+            recipe.steps.forEach(step => {
+                const li = document.createElement("li");
+                li.innerText = step;
+                stepsList.appendChild(li);
+            });
+
+            /* Show modal */
+            document.getElementById("recipeModal").classList.add("active");
+            document.body.style.overflow = "hidden";
+
+        }
+
+        function ingredientUse(ingredient, recipeName) {
+            const item = ingredient.toLowerCase();
+            const dish = recipeName.toLowerCase();
+
+            if (/rice|grain|couscous|quinoa|pasta|noodle/.test(item)) {
+                return "cook as the main base, then combine it with the seasoned ingredients.";
+            }
+            if (/chicken|beef|pork|lamb|goat|fish|salmon|shrimp|prawn|seafood|meat|protein/.test(item)) {
+                return "season first, then cook until browned outside and fully cooked in the centre.";
+            }
+            if (/vegetable|tomato|onion|garlic|cabbage|spinach|carrot|cucumber|pepper|greens|produce/.test(item)) {
+                return "wash, cut into even pieces, and add at the stage where it should stay tender and colourful.";
+            }
+            if (/oil|butter|yogurt|cheese|feta|cream|milk|coconut/.test(item)) {
+                return "use to cook, enrich, bind, or finish the dish according to the method.";
+            }
+            if (/herb|spice|salt|pepper|lemon|lime|citrus|sauce|dressing|stock|broth/.test(item)) {
+                return "add gradually to build the seasoning, then taste and adjust before serving.";
+            }
+            if (/nut|seed|raisin|fruit|honey|sugar|chocolate/.test(item)) {
+                return "add for texture and flavour, folding it in or sprinkling it over the finished dish.";
+            }
+            return `prepare it as directed in the steps for ${dish}.`;
+        }
+
+
+        /* CLOSE MODAL */
+
+        function closeModal() {
+            document.getElementById("recipeModal").classList.remove("active");
+            document.body.style.overflow = "";
+        }
+
+        function closeModalOverlay(event) {
+            if (event.target === event.currentTarget) {
+                closeModal();
+            }
+        }
+
+        /* Close with Escape key */
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

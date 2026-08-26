@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NutriLife Nutrition — Track your daily nutrition targets and learn about balanced eating.">
+    <title>Nutrition — NutriLife</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- =========================
+     NAVIGATION
+========================= -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="food2.html" class="logo">
+                Nutri<span>Life</span> 🥗
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="food2.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="nutrition.html" class="active">Nutrition</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="tips.html">Tips</a></li>
+            </ul>
+
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+     PAGE HERO
+========================= -->
+
+    <div class="page-hero">
+        <span class="page-icon">📊</span>
+        <h1>Daily <span>Nutrition</span></h1>
+        <p>Understand what your body needs — track and balance your daily intake.</p>
+    </div>
+
+
+    <!-- =========================
+     NUTRITION TRACKER
+========================= -->
+
+    <section class="nutrition" id="nutrition">
+
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Daily Targets</h2>
+                <p>A simple example of a balanced daily target.</p>
+            </div>
+
+            <div class="nutrition-grid">
+
+                <div class="nutrition-card">
+                    <div class="number">2,000</div>
+                    <h3>Calories</h3>
+                    <div class="progress">
+                        <div class="progress-bar" style="width:75%"></div>
+                    </div>
+                    <p>Daily energy</p>
+                </div>
+
+
+                <div class="nutrition-card">
+                    <div class="number">120g</div>
+                    <h3>Protein</h3>
+                    <div class="progress">
+                        <div class="progress-bar" style="width:65%"></div>
+                    </div>
+                    <p>Muscle support</p>
+                </div>
+
+
+                <div class="nutrition-card">
+                    <div class="number">250g</div>
+                    <h3>Carbs</h3>
+                    <div class="progress">
+                        <div class="progress-bar" style="width:70%"></div>
+                    </div>
+                    <p>Energy source</p>
+                </div>
+
+
+                <div class="nutrition-card">
+                    <div class="number">30g</div>
+                    <h3>Fiber</h3>
+                    <div class="progress">
+                        <div class="progress-bar" style="width:80%"></div>
+                    </div>
+                    <p>Digestive health</p>
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+             NUTRITION INFO
+            ========================= -->
+
+            <div class="nutrition-info-grid">
+
+                <div class="nutrition-info-card">
+                    <div class="info-icon">🥦</div>
+                    <h3>Vitamins & Minerals</h3>
+                    <p>Eat a variety of colourful fruits and vegetables to ensure you're getting a wide range of vitamins and minerals. Dark leafy greens, citrus fruits, and berries are especially nutrient-dense.</p>
+                </div>
+
+                <div class="nutrition-info-card">
+                    <div class="info-icon">💧</div>
+                    <h3>Hydration</h3>
+                    <p>Aim for around 2 litres of water per day. Herbal teas, fruits with high water content, and soups also contribute to your daily hydration needs.</p>
+                </div>
+
+                <div class="nutrition-info-card">
+                    <div class="info-icon">🫒</div>
+                    <h3>Healthy Fats</h3>
+                    <p>Include sources of healthy fats like avocados, nuts, seeds, and olive oil. These support brain function and help absorb fat-soluble vitamins.</p>
+                </div>
+
+                <div class="nutrition-info-card">
+                    <div class="info-icon">🍚</div>
+                    <h3>Balanced Meals</h3>
+                    <p>Try to build each meal around a source of protein, complex carbohydrates, and vegetables. This helps maintain steady energy levels throughout the day.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>🥗 NutriLife</h3>
+                <p>
+                    Helping people discover simple,
+                    delicious and balanced ways to eat better.
+                </p>
+            </div>
+
+            <div>
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="recipes.html">Recipes</a></li>
+                    <li><a href="nutrition.html">Nutrition</a></li>
+                    <li><a href="planner.html">Meal Planner</a></li>
+                    <li><a href="tips.html">Health Tips</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Follow Us</h3>
+                <ul>
+                    <li>📸 Instagram</li>
+                    <li>📘 Facebook</li>
+                    <li>🐦 Twitter</li>
+                    <li>▶️ YouTube</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 NutriLife. Eat well. Live well.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+     JAVASCRIPT
+========================= -->
+
+    <script>
+
+        /* MOBILE MENU */
+
+        function toggleMenu() {
+            document
+                .getElementById("navLinks")
+                .classList.toggle("show");
+        }
+
+    </script>
+
+</body>
+
+</html>

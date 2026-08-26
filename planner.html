@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NutriLife Meal Planner — Build your own simple meal plan and stay organized.">
+    <title>Meal Planner — NutriLife</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- =========================
+     NAVIGATION
+========================= -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="food2.html" class="logo">
+                Nutri<span>Life</span> 🥗
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="food2.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="nutrition.html">Nutrition</a></li>
+                <li><a href="planner.html" class="active">Meal Planner</a></li>
+                <li><a href="tips.html">Tips</a></li>
+            </ul>
+
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+     PAGE HERO
+========================= -->
+
+    <div class="page-hero">
+        <span class="page-icon">📋</span>
+        <h1>Meal <span>Planner</span></h1>
+        <p>Organize your week — plan meals ahead to eat healthier and save time.</p>
+    </div>
+
+
+    <!-- =========================
+     MEAL PLANNER
+========================= -->
+
+    <section class="planner" id="planner">
+
+        <div class="planner-container">
+
+            <div class="day-tabs">
+                <button class="day-tab active" onclick="switchDay('Monday', this)">Mon</button>
+                <button class="day-tab" onclick="switchDay('Tuesday', this)">Tue</button>
+                <button class="day-tab" onclick="switchDay('Wednesday', this)">Wed</button>
+                <button class="day-tab" onclick="switchDay('Thursday', this)">Thu</button>
+                <button class="day-tab" onclick="switchDay('Friday', this)">Fri</button>
+                <button class="day-tab" onclick="switchDay('Saturday', this)">Sat</button>
+                <button class="day-tab" onclick="switchDay('Sunday', this)">Sun</button>
+            </div>
+
+            <div class="section-title">
+                <h2 id="dayTitle">Monday</h2>
+                <p style="color:#b8c6bd;">
+                    Add meals for this day.
+                </p>
+            </div>
+
+            <div class="meal-input">
+
+                <input type="text" id="mealInput" placeholder="Example: Grilled chicken salad">
+
+                <button class="add-btn" onclick="addMeal()">
+                    + Add Meal
+                </button>
+
+            </div>
+
+            <ul class="meal-list" id="mealList"></ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>🥗 NutriLife</h3>
+                <p>
+                    Helping people discover simple,
+                    delicious and balanced ways to eat better.
+                </p>
+            </div>
+
+            <div>
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="recipes.html">Recipes</a></li>
+                    <li><a href="nutrition.html">Nutrition</a></li>
+                    <li><a href="planner.html">Meal Planner</a></li>
+                    <li><a href="tips.html">Health Tips</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Follow Us</h3>
+                <ul>
+                    <li>📸 Instagram</li>
+                    <li>📘 Facebook</li>
+                    <li>🐦 Twitter</li>
+                    <li>▶️ YouTube</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 NutriLife. Eat well. Live well.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+     JAVASCRIPT
+========================= -->
+
+    <script>
+
+        /* MOBILE MENU */
+
+        function toggleMenu() {
+            document
+                .getElementById("navLinks")
+                .classList.toggle("show");
+        }
+
+
+        /* DAY SWITCHER */
+
+        let currentDay = "Monday";
+
+        const mealData = {
+            Monday: [],
+            Tuesday: [],
+            Wednesday: [],
+            Thursday: [],
+            Friday: [],
+            Saturday: [],
+            Sunday: []
+        };
+
+        function switchDay(day, button) {
+
+            /* Save current meals */
+            saveMeals();
+
+            /* Switch active tab */
+            const tabs = document.querySelectorAll(".day-tab");
+            tabs.forEach(t => t.classList.remove("active"));
+            button.classList.add("active");
+
+            currentDay = day;
+            document.getElementById("dayTitle").innerText = day;
+
+            /* Load meals for selected day */
+            loadMeals();
+
+        }
+
+        function saveMeals() {
+
+            const items = document.querySelectorAll("#mealList li span");
+            mealData[currentDay] = [];
+
+            items.forEach(item => {
+                /* Remove the emoji prefix */
+                mealData[currentDay].push(
+                    item.innerText.replace("🥗 ", "")
+                );
+            });
+
+        }
+
+        function loadMeals() {
+
+            const list = document.getElementById("mealList");
+            list.innerHTML = "";
+
+            mealData[currentDay].forEach(meal => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <span>🥗 ${meal}</span>
+                    <button class="remove"
+                    onclick="this.parentElement.remove()">
+                    Remove
+                    </button>
+                `;
+                list.appendChild(li);
+            });
+
+        }
+
+
+        /* MEAL PLANNER */
+
+        function addMeal() {
+
+            const input =
+                document.getElementById("mealInput");
+
+            const meal =
+                input.value.trim();
+
+            if (meal === "") {
+                alert("Please enter a meal first.");
+                return;
+            }
+
+            const li =
+                document.createElement("li");
+
+            li.innerHTML = `
+                <span>🥗 ${meal}</span>
+                <button class="remove"
+                onclick="this.parentElement.remove()">
+                Remove
+                </button>
+            `;
+
+            document
+                .getElementById("mealList")
+                .appendChild(li);
+
+            input.value = "";
+
+        }
+
+
+        /* ENTER KEY FOR MEALS */
+
+        document
+            .getElementById("mealInput")
+            .addEventListener("keypress", function (event) {
+
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    addMeal();
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>
