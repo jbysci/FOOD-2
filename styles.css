@@ -1,4 +1,83 @@
-/* =========================
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+    --ink: #17231d;
+    --muted: #68766d;
+    --paper: #f7f5ef;
+    --panel: #fffdf8;
+    --line: #d9ded3;
+    --green: #1d6b4b;
+    --lime: #d9ed63;
+    --orange: #ef8657;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-family: 'DM Sans', sans-serif; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+header { border-bottom: 1px solid var(--line); background: rgba(247, 245, 239, .94); position: sticky; top: 0; z-index: 2; backdrop-filter: blur(12px); }
+.navbar { max-width: 1160px; height: 74px; margin: auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+.logo { color: var(--green); font: 700 25px 'Space Grotesk', sans-serif; text-decoration: none; letter-spacing: 0; }
+.logo span { color: var(--orange); }
+.nav-links { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
+.nav-links a { color: var(--muted); font-size: 14px; text-decoration: none; }
+.nav-links a:hover, .nav-links a.active { color: var(--green); }
+.menu-btn { display: none; border: 0; background: var(--green); color: white; padding: 9px 12px; border-radius: 6px; }
+
+.calculator-shell { max-width: 1160px; margin: auto; padding: 78px 24px 110px; }
+.intro { max-width: 740px; margin-bottom: 46px; }
+.eyebrow { color: var(--orange); font-size: 12px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; }
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; letter-spacing: 0; }
+h1 { font-size: clamp(42px, 7vw, 82px); line-height: .98; margin: 16px 0 22px; max-width: 760px; }
+h1 span { color: var(--green); }
+.intro p { color: var(--muted); font-size: 18px; line-height: 1.6; max-width: 600px; }
+.calculator-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: 26px; align-items: start; }
+.form-panel, .result-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 32px; }
+.form-panel h2, .result-panel h2 { margin: 0 0 8px; font-size: 27px; }
+.panel-copy { color: var(--muted); margin: 0 0 27px; line-height: 1.5; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field.full { grid-column: 1 / -1; }
+label { font-size: 13px; font-weight: 700; }
+input, select { width: 100%; border: 1px solid var(--line); border-radius: 5px; padding: 13px 14px; background: white; color: var(--ink); outline: none; }
+input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(29, 107, 75, .12); }
+.hint { color: var(--muted); font-size: 12px; }
+.calculate-btn { width: 100%; border: 0; border-radius: 5px; margin-top: 25px; padding: 15px; background: var(--green); color: white; font-weight: 700; }
+.calculate-btn:hover { background: #154e38; }
+.result-panel { background: var(--green); color: white; position: sticky; top: 100px; }
+.result-panel:not(.is-visible) { min-height: 390px; display: flex; flex-direction: column; justify-content: center; }
+.result-panel:not(.is-visible) .result-content { display: none; }
+.result-empty { color: #d5e3d7; line-height: 1.6; }
+.is-visible .result-empty { display: none; }
+.result-content { display: none; }
+.is-visible .result-content { display: block; }
+.result-label { color: var(--lime); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.target { color: var(--lime); font: 700 clamp(48px, 7vw, 72px) 'Space Grotesk', sans-serif; margin: 7px 0 5px; }
+.result-note { color: #d5e3d7; line-height: 1.5; margin: 0 0 28px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat { border-top: 1px solid rgba(255,255,255,.25); padding-top: 13px; }
+.stat strong { display: block; font: 600 22px 'Space Grotesk', sans-serif; }
+.stat span { color: #c0d3c3; font-size: 12px; }
+.macro-title { margin: 30px 0 14px; font-size: 16px; }
+.macro { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.25); padding: 12px 0; color: #e8f1e8; }
+.macro strong { color: var(--lime); }
+footer { border-top: 1px solid var(--line); padding: 24px; color: var(--muted); font-size: 13px; text-align: center; }
+
+@media (max-width: 760px) {
+    .nav-links { display: none; }
+    .menu-btn { display: block; }
+    .calculator-shell { padding-top: 54px; }
+    .calculator-grid { grid-template-columns: 1fr; }
+    .result-panel { position: static; }
+}
+@media (max-width: 480px) {
+    .navbar, .calculator-shell { padding-left: 18px; padding-right: 18px; }
+    .form-panel, .result-panel { padding: 23px; }
+    .field-grid { grid-template-columns: 1fr; }
+    .field.full { grid-column: auto; }
+}/* =========================
    GOOGLE FONTS
 ========================= */
 
