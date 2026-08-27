@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <script src="auth.js"></script>
 
     <!-- =========================
      NAVIGATION
@@ -76,14 +77,17 @@
             </div>
 
             <div class="meal-input">
-
+                <select id="mealType" aria-label="Meal type"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select>
                 <input type="text" id="mealInput" placeholder="Example: Grilled chicken salad">
+                <input type="number" id="mealCalories" min="0" placeholder="Calories" aria-label="Meal calories">
 
                 <button class="add-btn" onclick="addMeal()">
                     + Add Meal
                 </button>
 
             </div>
+
+            <div class="planner-actions"><button class="add-btn" onclick="clearDay()">Clear day</button><button class="add-btn" onclick="clearWeek()">Clear week</button><span id="plannerTotal">0 kcal planned</span></div>
 
             <ul class="meal-list" id="mealList"></ul>
 
@@ -164,6 +168,8 @@
             Saturday: [],
             Sunday: []
         };
+        const savedMeals = JSON.parse(localStorage.getItem("nutrilifeMealData") || "null");
+        if (savedMeals) Object.assign(mealData, savedMeals);
 
         function switchDay(day, button) {
 
@@ -189,11 +195,9 @@
             mealData[currentDay] = [];
 
             items.forEach(item => {
-                /* Remove the emoji prefix */
-                mealData[currentDay].push(
-                    item.innerText.replace("🥗 ", "")
-                );
+                mealData[currentDay].push({ name: item.dataset.name, type: item.dataset.type, calories: Number(item.dataset.calories) || 0 });
             });
+            localStorage.setItem("nutrilifeMealData", JSON.stringify(mealData));
 
         }
 
@@ -203,9 +207,13 @@
             list.innerHTML = "";
 
             mealData[currentDay].forEach(meal => {
+                const item = typeof meal === "string" ? { name: meal, type: "Meal", calories: 0 } : meal;
                 const li = document.createElement("li");
+                li.dataset.name = item.name;
+                li.dataset.type = item.type;
+                li.dataset.calories = item.calories;
                 li.innerHTML = `
-                    <span>🥗 ${meal}</span>
+                    <span>🥗 <strong>${item.type}</strong>: ${item.name} ${item.calories ? `(${item.calories} kcal)` : ""}</span>
                     <button class="remove"
                     onclick="this.parentElement.remove()">
                     Remove
@@ -213,6 +221,7 @@
                 `;
                 list.appendChild(li);
             });
+            updatePlannerTotal();
 
         }
 
@@ -234,9 +243,13 @@
 
             const li =
                 document.createElement("li");
+            const calories = Number(document.getElementById("mealCalories").value) || 0;
+            li.dataset.name = meal;
+            li.dataset.type = document.getElementById("mealType").value;
+            li.dataset.calories = calories;
 
             li.innerHTML = `
-                <span>🥗 ${meal}</span>
+                <span>🥗 <strong>${li.dataset.type}</strong>: ${meal} ${calories ? `(${calories} kcal)` : ""}</span>
                 <button class="remove"
                 onclick="this.parentElement.remove()">
                 Remove
@@ -248,8 +261,19 @@
                 .appendChild(li);
 
             input.value = "";
+            document.getElementById("mealCalories").value = "";
+            saveMeals();
+            updatePlannerTotal();
 
         }
+
+        function updatePlannerTotal() {
+            const total = [...document.querySelectorAll("#mealList li")].reduce((sum, item) => sum + Number(item.dataset.calories || 0), 0);
+            document.getElementById("plannerTotal").innerText = `${total.toLocaleString()} kcal planned`;
+        }
+
+        function clearDay() { mealData[currentDay] = []; localStorage.setItem("nutrilifeMealData", JSON.stringify(mealData)); loadMeals(); }
+        function clearWeek() { Object.keys(mealData).forEach(day => mealData[day] = []); localStorage.removeItem("nutrilifeMealData"); loadMeals(); }
 
 
         /* ENTER KEY FOR MEALS */
@@ -264,6 +288,8 @@
                 }
 
             });
+
+        loadMeals();
 
     </script>
 

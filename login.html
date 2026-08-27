@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in | NutriLife</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="loginTitle">
+            <div class="logo">Nutri<span>Life</span> 🥗</div>
+            <span class="eyebrow">Your healthy space</span>
+            <h1 id="loginTitle">Welcome back.</h1>
+            <p>Sign in with Gmail to access your plans, tracking, tips, and games.</p>
+            <form id="loginForm">
+                <label for="gmailInput">Gmail address</label>
+                <input id="gmailInput" type="email" placeholder="you@gmail.com" autocomplete="email" required>
+                <button class="login-button" type="submit">Continue with Gmail</button>
+                <div class="login-error" id="loginError" role="alert"></div>
+            </form>
+            <small>This prototype checks for a valid @gmail.com address. Production Google sign-in requires OAuth.</small>
+        </section>
+    </main>
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", event => {
+            event.preventDefault();
+            const input = document.getElementById("gmailInput");
+            const email = input.value.trim().toLowerCase();
+            const error = document.getElementById("loginError");
+            if (!/^[^\s@]+@gmail\.com$/.test(email)) {
+                error.textContent = "Please enter a valid Gmail address.";
+                return;
+            }
+            localStorage.setItem("nutrilifeUser", email);
+            window.location.replace("index.html");
+        });
+    </script>
+</body>
+</html>

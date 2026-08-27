@@ -44,6 +44,7 @@ function startGame() {
 }
 
 function endGame() {
+    if (!gameRunning && timeLeft === 60) return;
     gameRunning = false;
     clearInterval(gameTimer);
     clearInterval(spawnTimer);

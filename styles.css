@@ -25,6 +25,18 @@ header { border-bottom: 1px solid var(--line); background: rgba(247, 245, 239, .
 .nav-links a { color: var(--muted); font-size: 14px; text-decoration: none; }
 .nav-links a:hover, .nav-links a.active { color: var(--green); }
 .menu-btn { display: none; border: 0; background: var(--green); color: white; padding: 9px 12px; border-radius: 6px; }
+.sign-out { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14px; cursor: pointer; }
+.sign-out:hover { color: var(--orange); }
+.login-page { min-height: 100vh; display: grid; place-items: center; background: radial-gradient(circle at 20% 10%, #e4f1d1, transparent 35%), var(--paper); }
+.login-shell { width: min(100% - 36px, 480px); }
+.login-card { padding: 38px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); box-shadow: 0 20px 60px rgba(23, 53, 31, .12); }
+.login-card .logo { display: block; margin-bottom: 34px; }
+.login-card h1 { font-size: 46px; margin: 12px 0; }
+.login-card p, .login-card small { color: var(--muted); line-height: 1.6; }
+.login-card form { display: grid; gap: 10px; margin: 26px 0 16px; }
+.login-card label { font-size: 13px; font-weight: 700; }
+.login-button { border: 0; border-radius: 5px; padding: 14px; background: var(--green); color: white; font-weight: 700; }
+.login-error { min-height: 18px; color: #c65f48; font-size: 13px; }
 
 .calculator-shell { max-width: 1160px; margin: auto; padding: 78px 24px 110px; }
 .intro { max-width: 740px; margin-bottom: 46px; }
@@ -136,6 +148,16 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rg
 .game-controls { display: flex; justify-content: center; gap: 15px; margin-top: 18px; }
 .game-controls button { width: 58px; height: 45px; border: 1px solid rgba(255,255,255,.2); border-radius: 5px; background: #244a35; color: white; font-size: 26px; }
 .game-controls button:hover { background: var(--green); border-color: var(--lime); }
+.game-controls .game-end { width: auto; padding: 0 16px; background: #713a35; font-size: 14px; }
+.meal-input select, .meal-input input { min-width: 0; }
+.planner-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; color: #b8c6bd; font-size: 14px; }
+.planner-actions .add-btn { padding: 10px 16px; }
+.planner-actions span { margin-left: auto; font-weight: 700; color: #ffcf8a; }
+.meal-list li strong { color: #1d8b4c; font-size: 12px; margin-right: 4px; text-transform: uppercase; }
+
+@media (max-width: 600px) {
+    .planner-actions span { margin-left: 0; width: 100%; }
+}
 .game-status { color: #b8c6bd; text-align: center; font-size: 13px; margin: 15px 0 0; }
 .game-page footer { background: #0e2118; border-color: rgba(255,255,255,.12); color: #b8c6bd; }
 @media (max-width: 600px) { .game-shell { padding: 48px 16px 65px; } .game-panel { padding: 14px; } .game-stage { height: 420px; } }

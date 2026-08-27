@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="game-page">
+    <script src="auth.js"></script>
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">Nutri<span>Life</span> 🥗</a>
@@ -47,6 +48,7 @@
             <div class="game-controls" aria-label="Game controls">
                 <button type="button" onclick="moveBasket(-1)" aria-label="Move basket left">←</button>
                 <button type="button" onclick="moveBasket(1)" aria-label="Move basket right">→</button>
+                <button type="button" class="game-end" onclick="endGame()" aria-label="End game">End game</button>
             </div>
             <p class="game-status" id="gameStatus">Use the arrow keys or the buttons to move.</p>
         </section>
