@@ -1498,3 +1498,58 @@ footer a:hover {
         padding: 50px 20px 40px;
     }
 }
+/* Dark Mode Overrides */
+body.dark-theme {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --border-color: #333333;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+body.dark-theme .card,
+body.dark-theme header,
+body.dark-theme nav {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}/* Grocery List Styling */
+.grocery-card ul li {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color, #eee);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grocery-card ul li input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* Hide extra UI elements when printing */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .grocery-card, .grocery-card * {
+    visibility: visible;
+  }
+  .grocery-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .grocery-actions {
+    display: none;
+  }
+}/* Chart Section Layout */
+.chart-card {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.chart-card canvas {
+  width: 100% !important;
+}

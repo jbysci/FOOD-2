@@ -10,6 +10,10 @@
 </head>
 
 <body>
+ <!-- Add Chart.js CDN inside the <head> tag -->
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
     <script src="auth.js"></script>
 
     <!-- =========================
@@ -17,7 +21,7 @@
 ========================= -->
 
     <header>
-
+     <button id="theme-toggle" class="btn">🌙 Dark Mode</button>
         <nav class="navbar">
 
             <a href="index.html" class="logo">
@@ -192,7 +196,18 @@
             </div>
 
             <div class="dashboard-panel reminder-panel"><div class="dashboard-heading"><div><span class="dashboard-label">Reminders</span><h2>Stay on schedule</h2></div></div><div class="reminder-controls"><label>Breakfast <input type="time" id="breakfastTime" value="08:00"></label><label>Lunch <input type="time" id="lunchTime" value="13:00"></label><label>Dinner <input type="time" id="dinnerTime" value="19:00"></label><button type="button" class="btn btn-primary" onclick="setReminders()">Enable reminders</button></div><div class="quick-status" id="reminderStatus">Reminders are off.</div></div>
-
+            <!-- Add this HTML block to your nutrition.html dashboard area -->
+<div class="card chart-card">
+  <h3>Nutritional & Weight Progress</h3>
+  
+  <div style="position: relative; height: 300px; margin-bottom: 20px;">
+    <canvas id="caloriesChart"></canvas>
+  </div>
+  
+  <div style="position: relative; height: 300px;">
+    <canvas id="weightChart"></canvas>
+  </div>
+</div>
 
             <!-- =========================
              NUTRITION INFO
@@ -515,7 +530,85 @@
         }
 
         loadNutrition();
+     // Global variable to keep track of the chart instance
+let caloriesChartInstance = null;
 
+document.addEventListener('DOMContentLoaded', () => {
+  renderDynamicCalorieChart();
+});
+
+// Helper function to pull meal intake from localStorage and calculate daily sums
+function getDailyCalorieTotals() {
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const totals = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 };
+
+  // Fetch logged food entries from localStorage (fallback to empty object if none exist)
+  const savedMeals = JSON.parse(localStorage.getItem('nutrilifeMeals')) || {};
+
+  // Structure expected: { "Mon": [{ calories: 400 }, { calories: 600 }], "Tue": [...] }
+  days.forEach(day => {
+    if (savedMeals[day] && Array.isArray(savedMeals[day])) {
+      totals[day] = savedMeals[day].reduce((sum, item) => sum + (Number(item.calories) || 0), 0);
+    }
+  });
+
+  return totals;
+}
+
+// Function to initialize or update the chart with current localStorage data
+function renderDynamicCalorieChart() {
+  const caloriesCtx = document.getElementById('caloriesChart')?.getContext('2d');
+  if (!caloriesCtx) return;
+
+  const dailyData = getDailyCalorieTotals();
+  const labels = Object.keys(dailyData);
+  const dataValues = Object.values(dailyData);
+
+  // Destroy previous instance to prevent overlapping chart renders when updating
+  if (caloriesChartInstance) {
+    caloriesChartInstance.destroy();
+  }
+
+  caloriesChartInstance = new Chart(caloriesCtx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Calorie Intake (kcal)',
+        data: dataValues,
+        backgroundColor: '#4CAF50',
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        title: { display: true, text: 'Weekly Calorie Summary (Live)' }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+}
+function addFoodItem(day, foodName, calories) {
+  // 1. Get existing meals
+  const savedMeals = JSON.parse(localStorage.getItem('nutrilifeMeals')) || {};
+  
+  if (!savedMeals[day]) {
+    savedMeals[day] = [];
+  }
+
+  // 2. Add the new item
+  savedMeals[day].push({ name: foodName, calories: Number(calories) });
+
+  // 3. Save back to localStorage
+  localStorage.setItem('nutrilifeMeals', JSON.stringify(savedMeals));
+
+  // 4. Update the chart instantly!
+  renderDynamicCalorieChart();
+}
     </script>
 
 </body>

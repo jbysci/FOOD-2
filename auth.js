@@ -20,3 +20,22 @@ if (!isLoginPage && savedUser) {
         document.getElementById("signOutLink").addEventListener("click", signOut);
     });
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('theme-toggle');
+  
+  if (!toggleBtn) return;
+
+  // Load saved preference
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark-theme');
+    toggleBtn.innerText = '☀️ Light Mode';
+  }
+
+  // Toggle theme on click
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    localStorage.setItem('darkMode', isDark);
+    toggleBtn.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+  });
+});

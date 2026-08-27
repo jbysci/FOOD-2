@@ -17,7 +17,7 @@
 ========================= -->
 
     <header>
-
+    <button id="theme-toggle" class="btn">🌙 Dark Mode</button>
         <nav class="navbar">
 
             <a href="index.html" class="logo">
@@ -56,7 +56,20 @@
 ========================= -->
 
     <section class="planner" id="planner">
+    <div class="card grocery-card">
+  <h3>Grocery Shopping List</h3>
+  <p>Generate a list based on your weekly meal planner.</p>
+  
+  <div class="grocery-actions" style="margin-bottom: 15px;">
+    <button class="btn" onclick="generateGroceryList()">📋 Generate List</button>
+    <button class="btn" onclick="printGroceryList()">🖨️ Print</button>
+    <button class="btn" onclick="downloadGroceryList()">💾 Download (.txt)</button>
+  </div>
 
+  <ul id="grocery-list-display" style="list-style-type: none; padding-left: 0;">
+    <li><em>Click "Generate List" to load your items.</em></li>
+  </ul>
+</div>
         <div class="planner-container">
 
             <div class="day-tabs">
@@ -145,7 +158,72 @@
 ========================= -->
 
     <script>
+     // Helper to extract items from your local storage planner data
+function getPlannerItems() {
+  const savedData = localStorage.getItem('nutrilifePlanner');
+  if (!savedData) return [];
 
+  const planner = JSON.parse(savedData);
+  const items = [];
+
+  // Loop through days and meals to extract text/ingredients
+  Object.values(planner).forEach(dayMeals => {
+    if (Array.isArray(dayMeals)) {
+      dayMeals.forEach(meal => {
+        if (meal.name || meal.title) {
+          items.push(meal.name || meal.title);
+        }
+      });
+    }
+  });
+
+  return items;
+}
+
+// 1. Generate and render the interactive checklist on the page
+function generateGroceryList() {
+  const listContainer = document.getElementById('grocery-list-display');
+  const items = getPlannerItems();
+
+  if (items.length === 0) {
+    listContainer.innerHTML = '<li>No meals found in your planner yet!</li>';
+    return;
+  }
+
+  listContainer.innerHTML = items
+    .map((item, index) => `
+      <li>
+        <input type="checkbox" id="item-${index}">
+        <label for="item-${index}">${item}</label>
+      </li>
+    `)
+    .join('');
+}
+
+// 2. Open browser print dialog for the grocery list section
+function printGroceryList() {
+  generateGroceryList();
+  window.print();
+}
+
+// 3. Download the generated list as a .txt file
+function downloadGroceryList() {
+  const items = getPlannerItems();
+  
+  if (items.length === 0) {
+    alert('Please add some meals to your planner first!');
+    return;
+  }
+
+  const fileContent = "NutriLife Grocery Shopping List:\n\n" + items.map(i => `- ${i}`).join('\n');
+  const blob = new Blob([fileContent], { type: 'text/plain' });
+  const anchor = document.createElement('a');
+  
+  anchor.href = URL.createObjectURL(blob);
+  anchor.download = 'nutrilife-grocery-list.txt';
+  anchor.click();
+  URL.revokeObjectURL(anchor.href);
+}
         /* MOBILE MENU */
 
         function toggleMenu() {
