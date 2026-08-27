@@ -20,22 +20,21 @@ if (!isLoginPage && savedUser) {
         document.getElementById("signOutLink").addEventListener("click", signOut);
     });
 }
-document.addEventListener('DOMContentLoaded', () => {
-  const toggleBtn = document.getElementById('theme-toggle');
-  
-  if (!toggleBtn) return;
+document.addEventListener("DOMContentLoaded", () => {
+    const settingsButton = document.getElementById("settings-toggle");
+    if (!settingsButton) return;
 
-  // Load saved preference
-  if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-theme');
-    toggleBtn.innerText = '☀️ Light Mode';
-  }
+    const panel = document.createElement("div");
+    panel.id = "settings-panel";
+    panel.className = "settings-panel";
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-label", "Settings");
+    panel.hidden = true;
+    panel.innerHTML = "<strong>Settings</strong><p>NutriLife is using light mode.</p>";
+    document.body.appendChild(panel);
 
-  // Toggle theme on click
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme');
-    const isDark = document.body.classList.contains('dark-theme');
-    localStorage.setItem('darkMode', isDark);
-    toggleBtn.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-  });
+    settingsButton.addEventListener("click", () => {
+        panel.hidden = !panel.hidden;
+        settingsButton.setAttribute("aria-expanded", String(!panel.hidden));
+    });
 });
