@@ -165,18 +165,28 @@
             </div>
 
             <div class="dashboard-panel reminder-panel"><div class="dashboard-heading"><div><span class="dashboard-label">Reminders</span><h2>Stay on schedule</h2></div></div><div class="reminder-controls"><label>Breakfast <input type="time" id="breakfastTime" value="08:00"></label><label>Lunch <input type="time" id="lunchTime" value="13:00"></label><label>Dinner <input type="time" id="dinnerTime" value="19:00"></label><button type="button" class="btn btn-primary" onclick="setReminders()">Enable reminders</button></div><div class="quick-status" id="reminderStatus">Reminders are off.</div></div>
-            <!-- Add this HTML block to your nutrition.html dashboard area -->
-<div class="card chart-card">
-  <h3>Nutritional & Weight Progress</h3>
-  
-  <div style="position: relative; height: 300px; margin-bottom: 20px;">
-    <canvas id="caloriesChart"></canvas>
-  </div>
-  
-  <div style="position: relative; height: 300px;">
-    <canvas id="weightChart"></canvas>
-  </div>
-</div>
+            <div class="card chart-card">
+                <div class="chart-header">
+                    <div>
+                        <span class="dashboard-label">Progress</span>
+                        <h3>Nutritional & Weight Tracking</h3>
+                    </div>
+                </div>
+
+                <div class="chart-grid">
+                    <div class="chart-panel">
+                        <div class="chart-wrap">
+                            <canvas id="caloriesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel">
+                        <div class="chart-wrap">
+                            <canvas id="weightChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- =========================
              NUTRITION INFO
@@ -295,6 +305,7 @@
             renderHistory();
             renderInsights();
             renderDynamicCalorieChart();
+            renderDynamicWeightChart();
         }
 
         function convertUnits() {
@@ -373,6 +384,7 @@
             renderHistory();
             renderInsights();
             renderDynamicCalorieChart();
+            renderDynamicWeightChart();
         }
 
         function renderWaterTracker() {
@@ -407,6 +419,7 @@
             renderHistory();
             renderInsights();
             renderDynamicCalorieChart();
+            renderDynamicWeightChart();
         }
 
         function resetNutrition() {
@@ -425,13 +438,16 @@
             renderWaterTracker();
             renderInsights();
             renderDynamicCalorieChart();
+            renderDynamicWeightChart();
         }
 
        let caloriesChartInstance = null;
+       let weightChartInstance = null;
        loadNutrition();
 
 document.addEventListener('DOMContentLoaded', () => {
   renderDynamicCalorieChart();
+  renderDynamicWeightChart();
 });
 
 // Helper function to pull meal intake from localStorage and calculate daily sums
@@ -443,7 +459,17 @@ function getDailyCalorieTotals() {
   }, []);
 }
 
-// Function to initialize or update the chart with current localStorage data
+function getWeightTrend() {
+  const history = JSON.parse(localStorage.getItem('nutrilifeHistory') || '[]');
+  return history.slice(0, 7).reverse().reduce((totals, entry) => {
+    const weight = Number(entry.weight);
+    if (weight > 0) {
+      totals.push({ label: entry.date, weight });
+    }
+    return totals;
+  }, []);
+}
+
 function renderDynamicCalorieChart() {
   const caloriesCtx = document.getElementById('caloriesChart')?.getContext('2d');
   if (!caloriesCtx) return;
@@ -451,32 +477,161 @@ function renderDynamicCalorieChart() {
   const dailyData = getDailyCalorieTotals();
   const labels = dailyData.length ? dailyData.map(entry => entry.label) : ["No data"];
   const dataValues = dailyData.length ? dailyData.map(entry => entry.calories) : [0];
+  const targetValues = Array(labels.length).fill(Number(JSON.parse(localStorage.getItem('nutrilifeProfile') || 'null')?.target || 2000));
 
-  // Destroy previous instance to prevent overlapping chart renders when updating
   if (caloriesChartInstance) {
     caloriesChartInstance.destroy();
   }
 
   if (typeof Chart === "undefined") return;
+
+  const gradient = caloriesCtx.createLinearGradient(0, 0, 0, 320);
+  gradient.addColorStop(0, 'rgba(34, 197, 94, 0.75)');
+  gradient.addColorStop(1, 'rgba(34, 197, 94, 0.12)');
+
   caloriesChartInstance = new Chart(caloriesCtx, {
     type: 'bar',
     data: {
       labels: labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Calorie Intake (kcal)',
+          data: dataValues,
+          backgroundColor: gradient,
+          borderColor: '#22c55e',
+          borderWidth: 2,
+          borderRadius: 10,
+          borderSkipped: false,
+          barThickness: 28
+        },
+        {
+          type: 'line',
+          label: 'Daily Target',
+          data: targetValues,
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245, 158, 11, 0.12)',
+          borderDash: [6, 6],
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.2,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            boxWidth: 10,
+            color: '#374151'
+          }
+        },
+        tooltip: {
+          displayColors: true,
+          callbacks: {
+            label: (context) => `${context.dataset.label}: ${context.parsed.y.toLocaleString()} kcal`
+          }
+        },
+        title: {
+          display: true,
+          text: 'Your logged calorie data',
+          color: '#1f2937',
+          font: { size: 15, weight: '600' }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: '#4b5563' }
+        },
+        y: {
+          beginAtZero: false,
+          grid: { color: 'rgba(148, 163, 184, 0.18)' },
+          ticks: { color: '#4b5563' },
+          title: { display: true, text: 'Calories', color: '#374151' }
+        }
+      }
+    }
+  });
+}
+
+function renderDynamicWeightChart() {
+  const weightCtx = document.getElementById('weightChart')?.getContext('2d');
+  if (!weightCtx) return;
+
+  const weightData = getWeightTrend();
+  const labels = weightData.length ? weightData.map(entry => entry.label) : ['No data'];
+  const values = weightData.length ? weightData.map(entry => entry.weight) : [0];
+
+  if (weightChartInstance) {
+    weightChartInstance.destroy();
+  }
+
+  if (typeof Chart === 'undefined') return;
+
+  weightChartInstance = new Chart(weightCtx, {
+    type: 'line',
+    data: {
+      labels,
       datasets: [{
-        label: 'Calorie Intake (kcal)',
-        data: dataValues,
-        backgroundColor: '#4CAF50',
-        borderRadius: 6
+        label: 'Weight (kg)',
+        data: values,
+        borderColor: '#8b5cf6',
+        backgroundColor: 'rgba(139, 92, 246, 0.15)',
+        pointBackgroundColor: '#8b5cf6',
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 6,
+        borderWidth: 3,
+        fill: true,
+        tension: 0.35
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        title: { display: true, text: 'Your logged calorie data' }
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: '#374151',
+            usePointStyle: true,
+            boxWidth: 10
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: (context) => `${context.parsed.y.toFixed(1)} kg`
+          }
+        },
+        title: {
+          display: true,
+          text: 'Weight trend',
+          color: '#1f2937',
+          font: { size: 15, weight: '600' }
+        }
       },
       scales: {
-        y: { beginAtZero: true }
+        x: {
+          grid: { display: false },
+          ticks: { color: '#4b5563' }
+        },
+        y: {
+          beginAtZero: false,
+          grid: { color: 'rgba(148, 163, 184, 0.18)' },
+          ticks: { color: '#4b5563' },
+          title: { display: true, text: 'kg', color: '#374151' }
+        }
       }
     }
   });
