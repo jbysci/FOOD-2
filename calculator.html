@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NutriLife calorie calculator for estimating daily calorie needs.">
+    <title>Calorie Calculator | NutriLife</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header><nav class="navbar"><a href="index.html" class="logo">Nutri<span>Life</span></a><ul class="nav-links" id="navLinks"><li><a href="index.html" class="active">Calculator</a></li><li><a href="nutrition.html">Nutrition</a></li><li><a href="planner.html">Meal Planner</a></li><li><a href="tips.html">Tips</a></li></ul><button class="menu-btn" type="button" onclick="toggleMenu()" aria-label="Open menu">Menu</button></nav></header>
+    <main class="calculator-shell">
+        <section class="intro"><span class="eyebrow">Daily energy, made clear</span><h1>Your calories,<br><span>calculated.</span></h1><p>Estimate your daily energy needs and get a practical macro starting point tailored to your body and goal.</p></section>
+        <div class="calculator-grid">
+            <section class="form-panel" aria-labelledby="formTitle"><h2 id="formTitle">Your details</h2><p class="panel-copy">Use metric measurements for the most consistent estimate.</p><form id="calculatorForm"><div class="field-grid">
+                <div class="field full"><label for="sex">Biological sex</label><select id="sex" name="sex" required><option value="female">Female</option><option value="male">Male</option></select></div>
+                <div class="field"><label for="age">Age</label><input id="age" name="age" type="number" min="15" max="100" placeholder="28" required><span class="hint">Years</span></div>
+                <div class="field"><label for="weight">Weight</label><input id="weight" name="weight" type="number" min="35" max="300" step="0.1" placeholder="70" required><span class="hint">Kilograms</span></div>
+                <div class="field full"><label for="height">Height</label><input id="height" name="height" type="number" min="120" max="230" placeholder="175" required><span class="hint">Centimetres</span></div>
+                <div class="field full"><label for="activity">Typical activity</label><select id="activity" name="activity" required><option value="1.2">Mostly sedentary</option><option value="1.375">Lightly active, 1–3 days/week</option><option value="1.55">Moderately active, 3–5 days/week</option><option value="1.725">Very active, 6–7 days/week</option><option value="1.9">Highly active or physical job</option></select></div>
+                <div class="field full"><label for="goal">Your goal</label><select id="goal" name="goal" required><option value="0">Maintain my weight</option><option value="-300">Lose weight gradually</option><option value="300">Gain weight gradually</option></select></div>
+                <div class="field"><label for="diet">Eating style</label><select id="diet" name="diet"><option value="balanced">Balanced</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option><option value="high-protein">High protein</option></select></div>
+                <div class="field"><label for="mealsPerDay">Meals per day</label><select id="mealsPerDay" name="mealsPerDay"><option value="3">3 meals</option><option value="4" selected>3 meals + snack</option><option value="5">5 smaller meals</option></select></div>
+                <div class="field"><label for="budget">Budget</label><select id="budget" name="budget"><option value="any">Any budget</option><option value="budget">Budget friendly</option></select></div>
+                <div class="field"><label for="allergies">Avoid foods</label><input id="allergies" name="allergies" type="text" placeholder="e.g. nuts, dairy"><span class="hint">Separate foods with commas</span></div>
+            </div><button class="calculate-btn" type="submit">Calculate my calories</button></form></section>
+            <section class="result-panel" id="resultPanel" aria-live="polite" aria-labelledby="resultTitle"><div class="result-empty"><h2 id="resultTitle">Your result</h2><p>Complete the form to see your estimated daily target, maintenance calories, and macro split.</p></div><div class="result-content"><span class="result-label">Suggested daily target</span><div class="target"><span id="targetCalories">0</span> kcal</div><p class="result-note" id="resultNote"></p><div class="stats"><div class="stat"><strong id="maintenanceCalories">0 kcal</strong><span>Maintenance</span></div><div class="stat"><strong id="bmrCalories">0 kcal</strong><span>Resting burn</span></div><div class="stat"><strong id="bmiValue">0</strong><span>Estimated BMI</span></div></div><h3 class="macro-title">Macro starting point</h3><div class="macro"><span>Protein</span><strong id="proteinAmount">0 g</strong></div><div class="macro"><span>Carbohydrates</span><strong id="carbsAmount">0 g</strong></div><div class="macro"><span>Fat</span><strong id="fatsAmount">0 g</strong></div><div class="diet-plan"><h3 class="macro-title">Your daily diet plan</h3><p class="diet-intro">A simple one-day plan matched to your calorie target. Portions can be adjusted to fit your preferences.</p><label class="serving-control" for="servingScale">Portion size <output id="servingValue">100%</output><input id="servingScale" type="range" min="80" max="120" value="100" step="5"></label><div class="meal-plan" id="mealPlan"></div><h3 class="macro-title">Shopping list</h3><div class="shopping-list" id="shoppingList"></div></div></div></section>
+        </div>
+    </main>
+    <footer>NutriLife · Estimates are educational, not medical advice.</footer><script src="calculator.js"></script>
+</body>
+</html>
