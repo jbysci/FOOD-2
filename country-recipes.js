@@ -138,6 +138,31 @@ const worldRecipes = {};
 
 function recipeProfileForDish(dish, style, countryIndex, recipeIndex) {
     const name = dish.toLowerCase();
+    const dishSeed = [...name].reduce((total, character) => total + character.charCodeAt(0), countryIndex * 17 + recipeIndex);
+    const signatureIngredients = [
+        "pomegranate molasses, toasted almonds, and parsley",
+        "ginger, scallions, sesame, and a splash of rice vinegar",
+        "smoked paprika, lemon zest, chickpeas, and coriander",
+        "coconut, fresh chilli, lime leaves, and Thai basil",
+        "sumac, mint, cucumber, and creamy yogurt",
+        "roasted garlic, thyme, olives, and cracked black pepper",
+        "tamarind, cumin, dates, and fresh cilantro",
+        "fennel, orange zest, capers, and extra-virgin olive oil",
+        "peanuts, turmeric, curry leaves, and mustard seeds",
+        "star anise, cinnamon, cloves, and fresh ginger",
+        "green chilli, sweet corn, lime, and avocado",
+        "dill, pickled onions, mustard, and rye crumbs"
+    ];
+    const signatureMethods = [
+        "toasted first to deepen its aroma",
+        "marinated briefly so the seasoning reaches the centre",
+        "finished with a bright sauce added just before serving",
+        "layered in the pan so the textures remain distinct",
+        "charred lightly for a smoky edge",
+        "folded in at the end to keep its colour and freshness"
+    ];
+    const signatureIngredient = signatureIngredients[dishSeed % signatureIngredients.length];
+    const signatureMethod = signatureMethods[dishSeed % signatureMethods.length];
     const profiles = [
         {
             match: /soup|stew|curry|wat|chowder|broth|harira|sinigang|goulash/,
@@ -199,6 +224,8 @@ function recipeProfileForDish(dish, style, countryIndex, recipeIndex) {
 
     return {
         ...profile,
+        ingredients: `${profile.ingredients}; ${signatureIngredient}`,
+        method: `${profile.method}, with ${signatureMethod}`,
         calories: style.calories + profile.calories + ((countryIndex + recipeIndex) % 3) * 10,
         time: Math.max(5, style.time + profile.time + ((countryIndex * 2 + recipeIndex) % 4) * 5)
     };
@@ -403,7 +430,7 @@ worldCountries.forEach((country, countryIndex) => {
             country,
             cal: `🔥 ${profile.calories} kcal`,
             time: `⏱ ${profile.time} min`,
-            ingredients: [dish, profile.ingredients],
+            ingredients: [dish, ...profile.ingredients.split("; ")],
             steps: stepsForDish(dish, country, countryIndex, recipeIndex)
         };
     });
