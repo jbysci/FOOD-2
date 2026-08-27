@@ -12,29 +12,75 @@
             <div class="logo">Nutri<span>Life</span> 🥗</div>
             <span class="eyebrow">Your healthy space</span>
             <h1 id="loginTitle">Welcome back.</h1>
-            <p>Sign in with Gmail to access your plans, tracking, tips, and games.</p>
-            <form id="loginForm">
-                <label for="gmailInput">Gmail address</label>
-                <input id="gmailInput" type="email" placeholder="you@gmail.com" autocomplete="email" required>
-                <button class="login-button" type="submit">Continue with Gmail</button>
-                <div class="login-error" id="loginError" role="alert"></div>
+            <p>Use Google to securely access your plans, tracking, tips, and games.</p>
+
+            <button class="login-button" type="button" id="googleLoginBtn" aria-label="Continue with Google">
+                Continue with Google
+            </button>
+
+            <div class="or-divider" aria-hidden="true"><span>or</span></div>
+
+            <form id="loginForm" novalidate>
+                <label for="gmailInput">Email address</label>
+                <input id="gmailInput" type="email" placeholder="you@gmail.com" autocomplete="email" required aria-describedby="loginError">
+                <button class="login-button secondary" type="submit">Continue with email</button>
+                <div class="login-error" id="loginError" role="alert" aria-live="polite"></div>
             </form>
-            <small>This prototype checks for a valid @gmail.com address. Production Google sign-in requires OAuth.</small>
+
+            <small>Google OAuth requires a valid Google Cloud client ID and backend redirect. This prototype stores your email locally in the browser for a secure, local-first demo.</small>
         </section>
     </main>
     <script src="auth.js"></script>
     <script>
-        document.getElementById("loginForm").addEventListener("submit", event => {
-            event.preventDefault();
-            const input = document.getElementById("gmailInput");
-            const email = input.value.trim().toLowerCase();
-            const error = document.getElementById("loginError");
-            if (!/^[^\s@]+@gmail\.com$/.test(email)) {
-                error.textContent = "Please enter a valid Gmail address.";
+        const googleLoginBtn = document.getElementById("googleLoginBtn");
+        const loginForm = document.getElementById("loginForm");
+        const gmailInput = document.getElementById("gmailInput");
+        const error = document.getElementById("loginError");
+
+        function saveSignedInUser(email) {
+            const safeEmail = email.trim().toLowerCase();
+            if (!safeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(safeEmail)) {
+                error.textContent = "Please enter a valid email address.";
+                return false;
+            }
+            localStorage.setItem("nutrilifeUser", safeEmail);
+            sessionStorage.setItem("nutrilifeSession", JSON.stringify({
+                email: safeEmail,
+                provider: "google",
+                timestamp: new Date().toISOString()
+            }));
+            window.location.replace("index.html");
+            return true;
+        }
+
+        function startGoogleAuth() {
+            const clientId = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+            const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname.replace(/login\.html$/, "index.html"));
+            if (clientId.includes("YOUR_GOOGLE_CLIENT_ID")) {
+                const email = prompt("Enter your Google/Gmail address to continue in this browser demo:", "you@gmail.com");
+                if (email) {
+                    saveSignedInUser(email);
+                }
                 return;
             }
-            localStorage.setItem("nutrilifeUser", email);
-            window.location.replace("index.html");
+
+            const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+            authUrl.searchParams.set("client_id", clientId);
+            authUrl.searchParams.set("redirect_uri", redirectUri);
+            authUrl.searchParams.set("response_type", "token");
+            authUrl.searchParams.set("scope", "openid email profile");
+            authUrl.searchParams.set("prompt", "select_account");
+            window.location.href = authUrl.toString();
+        }
+
+        googleLoginBtn.addEventListener("click", startGoogleAuth);
+
+        loginForm.addEventListener("submit", event => {
+            event.preventDefault();
+            const email = gmailInput.value.trim().toLowerCase();
+            if (!saveSignedInUser(email)) {
+                error.textContent = "Please enter a valid email address.";
+            }
         });
     </script>
 </body>

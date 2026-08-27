@@ -164,7 +164,36 @@
                 <div class="dashboard-panel retention-panel"><div class="dashboard-heading"><div><span class="dashboard-label">Consistency</span><h2 id="streakCount">0 day streak</h2></div></div><div class="badges"><span id="badge7">7 days</span><span id="badge30">30 days</span><span id="badge100">100 days</span></div><p class="dashboard-copy">Keep logging to unlock consistency badges.</p><div class="export-buttons"><button type="button" class="tool-small" onclick="exportCsv()">Export CSV</button><button type="button" class="tool-small" onclick="window.print()">Print / PDF</button></div></div>
             </div>
 
-            <div class="dashboard-panel reminder-panel"><div class="dashboard-heading"><div><span class="dashboard-label">Reminders</span><h2>Stay on schedule</h2></div></div><div class="reminder-controls"><label>Breakfast <input type="time" id="breakfastTime" value="08:00"></label><label>Lunch <input type="time" id="lunchTime" value="13:00"></label><label>Dinner <input type="time" id="dinnerTime" value="19:00"></label><button type="button" class="btn btn-primary" onclick="setReminders()">Enable reminders</button></div><div class="quick-status" id="reminderStatus">Reminders are off.</div></div>
+            <div class="dashboard-panel profile-panel">
+                <div class="dashboard-heading">
+                    <div><span class="dashboard-label">Profile</span><h2>Your nutrition profile</h2></div>
+                </div>
+                <form class="profile-form" id="profileForm" onsubmit="saveProfile(event)">
+                    <label>Age <input id="profileAge" type="number" min="10" max="120" placeholder="29"></label>
+                    <label>Goal <select id="profileGoal"><option value="maintain">Maintain</option><option value="lose">Lose weight</option><option value="gain">Gain weight</option></select></label>
+                    <label>Dietary preference <select id="profileDiet"><option value="balanced">Balanced</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option><option value="high-protein">High protein</option></select></label>
+                    <label>Activity level <select id="profileActivity"><option value="sedentary">Sedentary</option><option value="light">Light</option><option value="moderate">Moderate</option><option value="active">Active</option><option value="very-active">Very active</option></select></label>
+                    <button class="btn btn-primary" type="submit">Save profile</button>
+                </form>
+                <div class="quick-status" id="profileStatus">Set your profile to personalize calorie targets.</div>
+            </div>
+
+            <div class="dashboard-panel reminder-panel">
+                <div class="dashboard-heading"><div><span class="dashboard-label">Reminders</span><h2>Stay on schedule</h2></div></div>
+                <div class="reminder-controls"><label>Breakfast <input type="time" id="breakfastTime" value="08:00"></label><label>Lunch <input type="time" id="lunchTime" value="13:00"></label><label>Dinner <input type="time" id="dinnerTime" value="19:00"></label><button type="button" class="btn btn-primary" onclick="setReminders()">Enable reminders</button></div>
+                <div class="quick-status" id="reminderStatus">Reminders are off.</div>
+            </div>
+
+            <div class="dashboard-panel privacy-panel">
+                <div class="dashboard-heading"><div><span class="dashboard-label">Privacy</span><h2>How your data is kept</h2></div></div>
+                <p class="dashboard-copy">Your profile, check-ins, and water tracking are stored in your browser using localStorage. This data stays on your device unless you choose to export a backup or import one later.</p>
+                <div class="export-buttons">
+                    <button type="button" class="tool-small" onclick="exportNutritionData()">Export backup</button>
+                    <button type="button" class="tool-small" onclick="document.getElementById('importFile').click()">Import backup</button>
+                    <input id="importFile" type="file" accept="application/json" hidden onchange="importNutritionData(event)">
+                </div>
+            </div>
+
             <div class="card chart-card">
                 <div class="chart-header">
                     <div>
@@ -356,12 +385,47 @@
             URL.revokeObjectURL(link.href);
         }
 
+        function checkReminderSchedule() {
+            const config = JSON.parse(localStorage.getItem("nutrilifeReminders") || "{}");
+            if (!config.enabled || !("Notification" in window) || Notification.permission !== "granted") return;
+
+            const now = new Date();
+            const dailyTargets = [
+                { key: "breakfast", value: config.breakfast },
+                { key: "lunch", value: config.lunch },
+                { key: "dinner", value: config.dinner }
+            ];
+
+            for (const item of dailyTargets) {
+                if (!item.value) continue;
+                const [hour, minute] = item.value.split(":").map(Number);
+                const reminderTime = new Date();
+                reminderTime.setHours(hour, minute, 0, 0);
+                const diffMinutes = Math.abs((now - reminderTime) / 60000);
+                const lastSent = Number(localStorage.getItem(`nutrilifeReminderSent_${item.key}`) || 0);
+                if (diffMinutes <= 10 && now >= reminderTime && lastSent !== now.toDateString()) {
+                    new Notification(`${item.key.charAt(0).toUpperCase() + item.key.slice(1)} check-in`, {
+                        body: "Log your food and water to stay on track today.",
+                        icon: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=120&q=80"
+                    });
+                    localStorage.setItem(`nutrilifeReminderSent_${item.key}`, now.toDateString());
+                }
+            }
+        }
+
         async function setReminders() {
             if (!("Notification" in window)) { document.getElementById("reminderStatus").innerText = "Browser reminders are not supported here."; return; }
             const permission = await Notification.requestPermission();
             if (permission !== "granted") { document.getElementById("reminderStatus").innerText = "Reminders need notification permission."; return; }
-            localStorage.setItem("nutrilifeReminders", JSON.stringify({ breakfast: document.getElementById("breakfastTime").value, lunch: document.getElementById("lunchTime").value, dinner: document.getElementById("dinnerTime").value }));
+            const reminders = {
+                breakfast: document.getElementById("breakfastTime").value,
+                lunch: document.getElementById("lunchTime").value,
+                dinner: document.getElementById("dinnerTime").value,
+                enabled: true
+            };
+            localStorage.setItem("nutrilifeReminders", JSON.stringify(reminders));
             document.getElementById("reminderStatus").innerText = "Reminders enabled for your selected meal times.";
+            checkReminderSchedule();
         }
 
         function updateTargetCards(intake = {}) {
@@ -375,6 +439,65 @@
         function renderHistory() {
             const history = JSON.parse(localStorage.getItem("nutrilifeHistory") || "[]");
             document.getElementById("historyList").innerHTML = history.length ? history.map((entry, index) => `<div class="history-row"><strong>${entry.date}</strong><span>${entry.calories.toLocaleString()} kcal</span><span>${entry.protein}g protein</span>${entry.weight ? `<span>${entry.weight} kg</span>` : ""}<button class="history-delete" type="button" onclick="deleteCheckin(${index})" aria-label="Delete check-in from ${entry.date}">Delete</button></div>`).join("") : `<p class="dashboard-copy">Your saved check-ins will appear here.</p>`;
+        }
+
+        function saveProfile(event) {
+            if (event) event.preventDefault();
+            const profile = {
+                age: Number(document.getElementById("profileAge").value) || 0,
+                goal: document.getElementById("profileGoal").value,
+                diet: document.getElementById("profileDiet").value,
+                activity: document.getElementById("profileActivity").value,
+                updatedAt: new Date().toISOString()
+            };
+            const savedProfile = JSON.parse(localStorage.getItem("nutrilifeProfile") || "{}");
+            const merged = { ...savedProfile, ...profile };
+            localStorage.setItem("nutrilifeProfile", JSON.stringify(merged));
+            document.getElementById("profileStatus").innerText = `Profile saved for ${profile.age ? profile.age + " years old" : "your next check-in"}.`;
+            renderInsights();
+            renderDynamicCalorieChart();
+        }
+
+        function exportNutritionData() {
+            const payload = {
+                exportedAt: new Date().toISOString(),
+                profile: JSON.parse(localStorage.getItem("nutrilifeProfile") || "{}"),
+                intake: JSON.parse(localStorage.getItem("nutrilifeIntake") || "{}"),
+                history: JSON.parse(localStorage.getItem("nutrilifeHistory") || "[]"),
+                waterGlasses: Number(localStorage.getItem("nutrilifeWaterGlasses") || 0),
+                reminders: JSON.parse(localStorage.getItem("nutrilifeReminders") || "{}")
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "nutrilife-backup.json";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(link.href);
+            document.getElementById("profileStatus").innerText = "Backup downloaded successfully.";
+        }
+
+        function importNutritionData(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const data = JSON.parse(reader.result || "{}");
+                    if (data.profile) localStorage.setItem("nutrilifeProfile", JSON.stringify(data.profile));
+                    if (data.intake) localStorage.setItem("nutrilifeIntake", JSON.stringify(data.intake));
+                    if (data.history) localStorage.setItem("nutrilifeHistory", JSON.stringify(data.history));
+                    if (data.waterGlasses !== undefined) localStorage.setItem("nutrilifeWaterGlasses", String(data.waterGlasses));
+                    if (data.reminders) localStorage.setItem("nutrilifeReminders", JSON.stringify(data.reminders));
+                    loadNutrition();
+                    document.getElementById("profileStatus").innerText = "Backup imported successfully.";
+                } catch (error) {
+                    document.getElementById("profileStatus").innerText = "That file is not a valid NutriLife backup.";
+                }
+                event.target.value = "";
+            };
+            reader.readAsText(file);
         }
 
         function deleteCheckin(index) {
@@ -412,7 +535,21 @@
             }
             const savedProfile = JSON.parse(localStorage.getItem("nutrilifeProfile") || "null");
             if (savedProfile) {
-                intakeTargets = { calories: Math.round(savedProfile.target), protein: Math.round(savedProfile.target * 0.3 / 4), fiber: 30 };
+                document.getElementById("profileAge").value = savedProfile.age || "";
+                document.getElementById("profileGoal").value = savedProfile.goal || "maintain";
+                document.getElementById("profileDiet").value = savedProfile.diet || "balanced";
+                document.getElementById("profileActivity").value = savedProfile.activity || "moderate";
+                intakeTargets = { calories: Math.round(savedProfile.target || 2000), protein: Math.round((savedProfile.target || 2000) * 0.3 / 4), fiber: 30 };
+                document.getElementById("profileStatus").innerText = `Profile loaded: ${savedProfile.goal || "maintain"} goal, ${savedProfile.activity || "moderate"} activity.`;
+            }
+            const reminders = JSON.parse(localStorage.getItem("nutrilifeReminders") || "null");
+            if (reminders) {
+                document.getElementById("breakfastTime").value = reminders.breakfast || "08:00";
+                document.getElementById("lunchTime").value = reminders.lunch || "13:00";
+                document.getElementById("dinnerTime").value = reminders.dinner || "19:00";
+                if (reminders.enabled) {
+                    document.getElementById("reminderStatus").innerText = "Reminders enabled for your selected meal times.";
+                }
             }
             updateTargetCards(savedIntake || {});
             renderWaterTracker();
@@ -425,11 +562,17 @@
         function resetNutrition() {
             localStorage.removeItem("nutrilifeIntake");
             localStorage.removeItem("nutrilifeWaterGlasses");
+            localStorage.removeItem("nutrilifeProfile");
             document.getElementById("calorieInput").value = "";
             document.getElementById("proteinInput").value = "";
             document.getElementById("fiberInput").value = "";
             document.getElementById("weightInput").value = "";
+            document.getElementById("profileAge").value = "";
+            document.getElementById("profileGoal").value = "maintain";
+            document.getElementById("profileDiet").value = "balanced";
+            document.getElementById("profileActivity").value = "moderate";
             document.getElementById("intakeStatus").innerText = "No intake logged yet.";
+            document.getElementById("profileStatus").innerText = "Profile reset. Set your targets again.";
             localStorage.removeItem("nutrilifeHistory");
             intakeTargets = { calories: 2000, protein: 120, fiber: 30 };
             updateTargetCards();
